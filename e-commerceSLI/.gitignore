@@ -1,0 +1,34 @@
+# Byte-compiled / cache de Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Entornos virtuales
+entorno_mercado/
+env/
+venv/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Base de datos local SQLite
+# (Evita que los miembros del grupo sobrescriban la base de datos local entre sí)
+*.db
+*.sqlite3
+database/*.db
+
+# Archivos de configuración sensible y variables de entorno
+.env
+.env.local
+config.local.py
+
+# Configuraciones de VS Code y editores de texto
+.vscode/
+.idea/
+*.swp
+*.DS_Store
+
+# Logs
+*.log
