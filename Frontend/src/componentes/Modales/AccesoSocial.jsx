@@ -1,94 +1,116 @@
 import { useEffect, useRef, useState } from 'react';
-const pendienteScripts = new Map();
-function cargarScript(url) {
-  if (pendienteScripts.has(url)) return pendienteScripts.get(url);
-  const promesa = new Promise((resolver, rechazar) => {
-    const guion = document.createElement('script');
-    guion.src = url;
-    guion.async = true;
-    guion.onload = resolver;
-    guion.onerror = () => rechazar(new Error('No se pudo cargar el proveedor de acceso'));
-    document.head.appendChild(guion);
+
+const pendingScripts = new Map();
+
+function loadScript(url) {
+  if (pendingScripts.has(url)) return pendingScripts.get(url);
+  const promise = new Promise((resolver, rechazar) => {
+    const script = document.createElement('script');
+    script.src = url;
+    script.async = true;
+    script.onload = resolver;
+    script.onerror = () =>
+      rechazar(new Error('No se pudo cargar el proveedor de acceso'));
+    document.head.appendChild(script);
   });
-  pendienteScripts.set(url, promesa);
-  promesa.catch(() => pendienteScripts.delete(url));
-  return promesa;
+  pendingScripts.set(url, promise);
+  promise.catch(() => pendingScripts.delete(url));
+  return promise;
 }
+
 function AccesoGoogle({
-  clientId: clienteId,
-  onCredential: alCredencial,
-  onError: alError
+  clientId,
+  onCredential: alRecibirCredencial,
+  onError: alFallar,
 }) {
-  const destino = useRef(null);
-  const retorno = useRef(alCredencial);
-  retorno.current = alCredencial;
+  const target = useRef(null);
+  const callback = useRef(alRecibirCredencial);
+  callback.current = alRecibirCredencial;
+
   useEffect(() => {
     let activo = true;
-    cargarScript('https://accounts.google.com/gsi/client?hl=es').then(() => {
-      if (!activo || !destino.current || !window.google?.accounts?.id) return;
-      window.google.accounts.id.initialize({
-        client_id: clienteId,
-        callback: respuesta => retorno.current('google', {
-          credential: respuesta.credential
-        })
+    loadScript('https://accounts.google.com/gsi/client?hl=es')
+      .then(() => {
+        if (!activo || !target.current || !window.google?.accounts?.id) return;
+        window.google.accounts.id.initialize({
+          client_id: clientId,
+          callback: (respuesta) =>
+            callback.current('google', { credential: respuesta.credential }),
+        });
+        target.current.replaceChildren();
+        window.google.accounts.id.renderButton(target.current, {
+          theme: 'outline',
+          size: 'large',
+          shape: 'pill',
+          text: 'continue_with',
+          locale: 'es',
+          width: 160,
+        });
+      })
+      .catch(() => {
+        if (activo) alFallar('No se pudo cargar Google. Intenta nuevamente.');
       });
-      destino.current.replaceChildren();
-      window.google.accounts.id.renderButton(destino.current, {
-        theme: 'outline',
-        size: 'large',
-        shape: 'pill',
-        text: 'continue_with',
-        locale: 'es',
-        width: 160
-      });
-    }).catch(() => {
-      if (activo) alError('No se pudo cargar Google. Intenta nuevamente.');
-    });
     return () => {
       activo = false;
     };
-  }, [clienteId, alError]);
-  return <div ref={destino} className="flex min-h-11 items-center justify-center overflow-hidden rounded-xl bg-white" />;
+  }, [clientId, alFallar]);
+
+  return (
+    <div
+      ref={target}
+      className="flex min-h-11 items-center justify-center overflow-hidden rounded-xl bg-white"
+    />
+  );
 }
 export { AccesoGoogle };
+
 function AccesoFacebook({
-  appId: idAplicacion,
+  appId,
   version,
-  onCredential: alCredencial,
-  onError: alError,
-  disabled: deshabilitado
+  onCredential: alRecibirCredencial,
+  onError: alFallar,
+  disabled: deshabilitado,
 }) {
-  const [listo, establecerReady] = useState(false);
+  const [ready, setReady] = useState(false);
+
   useEffect(() => {
     let activo = true;
-    cargarScript('https://connect.facebook.net/es_LA/sdk.js').then(() => {
-      if (!activo || !window.FB) return;
-      window.FB.init({
-        appId: idAplicacion,
-        cookie: false,
-        xfbml: false,
-        version
+    loadScript('https://connect.facebook.net/es_LA/sdk.js')
+      .then(() => {
+        if (!activo || !window.FB) return;
+        window.FB.init({ appId, cookie: false, xfbml: false, version });
+        setReady(true);
+      })
+      .catch(() => {
+        if (activo) alFallar('No se pudo cargar Facebook. Intenta nuevamente.');
       });
-      establecerReady(true);
-    }).catch(() => {
-      if (activo) alError('No se pudo cargar Facebook. Intenta nuevamente.');
-    });
     return () => {
       activo = false;
     };
-  }, [idAplicacion, version, alError]);
-  const manejarClic = () => {
-    window.FB.iniciarSesion(respuesta => {
-      const token = respuesta?.authResponse?.accessToken;
-      if (token) alCredencial('facebook', {
-        accessToken: token
-      });
-    }, {
-      scope: 'public_profile,email'
-    });
+  }, [appId, version, alFallar]);
+
+  const handleClick = () => {
+    window.FB.login(
+      (respuesta) => {
+        const credencial = respuesta?.authResponse?.accessToken;
+        if (credencial)
+          alRecibirCredencial('facebook', { accessToken: credencial });
+      },
+      { scope: 'public_profile,email' },
+    );
   };
-  return <button type="button" disabled={deshabilitado || !listo} onClick={manejarClic} className="flex h-11 items-center justify-center gap-2 rounded-xl border border-[#d9e0ea] bg-white px-4 text-sm font-bold text-[#26344a] shadow-sm transition hover:border-[#1877f2] disabled:cursor-not-allowed disabled:opacity-50 dark:border-[#303735]">
-      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#1877f2] font-black text-white">f</span> Facebook
-    </button>;
+
+  return (
+    <button
+      type="button"
+      disabled={deshabilitado || !ready}
+      onClick={handleClick}
+      className="flex h-11 items-center justify-center gap-2 rounded-xl border border-[#d9e0ea] bg-white px-4 text-sm font-bold text-[#26344a] shadow-sm transition hover:border-[#1877f2] disabled:cursor-not-allowed disabled:opacity-50 dark:border-[#303735]">
+      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#1877f2] font-black text-white">
+        f
+      </span>{' '}
+      Facebook
+    </button>
+  );
 }
 export { AccesoFacebook };

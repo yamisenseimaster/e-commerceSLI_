@@ -2,9 +2,10 @@
 
 Tienda y panel de administración hechos con React, Vite y Tailwind CSS.
 
-La versión local actual incluye acceso de administrador y productos persistentes
-en SQLite. Consultá [LEEME.md](./LEEME.md) para iniciar ambos servidores,
-ver las credenciales de prueba y conocer las funciones pendientes.
+El código está organizado en `src/componentes`, `src/Contextos`, `src/datos`,
+`src/estructura`, `src/pantallas`, `src/servicios` y `src/utilidades`.
+El punto de entrada es `src/inicio.jsx` y las rutas se definen en `src/Aplicacion.jsx`.
+Los nombres del contrato HTTP y las claves de almacenamiento mantienen su formato.
 
 ## Requisitos
 

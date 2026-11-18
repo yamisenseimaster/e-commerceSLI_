@@ -1,5 +1,4 @@
 from flask import Flask, jsonify
-from api_local import registrar_api
 
 from database.db import init_db
 from models.DetalleVenta import DetalleVenta
@@ -9,7 +8,6 @@ from models.Sucursal import Sucursal
 from models.Venta import Venta
 
 app = Flask(__name__)
-registrar_api(app)
 
 
 @app.route("/home")

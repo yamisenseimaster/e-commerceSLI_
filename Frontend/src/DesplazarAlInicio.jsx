@@ -1,10 +1,13 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router';
-const DesplazarAlInicio = propiedades => {
-  const ubicacion = useLocation();
+
+const DesplazarAlInicio = (props) => {
+  const location = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [ubicacion]);
-  return <>{propiedades.children}</>;
+  }, [location]);
+
+  return <>{props.children}</>;
 };
+
 export default DesplazarAlInicio;

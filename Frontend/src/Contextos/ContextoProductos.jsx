@@ -1,36 +1,61 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { apiProductos } from '../servicios/api';
+import { DatosProductos } from '../datos/DatosProductos';
+import { traducirCatalogo } from '../utilidades/localizacion';
+
 const ContextoProductos = createContext();
-function ProveedorProductos({
-  children: hijos
-}) {
-  const [productos, establecerProductos] = useState([]);
+
+function ProveedorProductos({ children: hijos }) {
+  const [productos, establecerProductos] = useState(() =>
+    traducirCatalogo(DatosProductos),
+  );
   const [cargando, establecerCargando] = useState(true);
   const [error, establecerError] = useState(null);
+
   useEffect(() => {
-    apiProductos.listar().then(datos => {
-      establecerProductos(datos);
-      establecerError(null);
-    }).catch(error => {
-      establecerError(error.message);
-    }).finally(() => establecerCargando(false));
+    apiProductos
+      .listar()
+      .then((datos) => {
+        establecerProductos(datos);
+        establecerError(null);
+      })
+      .catch((fallo) => {
+        establecerError(fallo.message);
+      })
+      .finally(() => establecerCargando(false));
   }, []);
-  const valor = useMemo(() => ({
-    products: productos,
-    establecerProductos: establecerProductos,
-    loading: cargando,
-    error
-  }), [productos, cargando, error]);
-  return <ContextoProductos.Provider value={valor}>
+
+  const valor = useMemo(
+    () => ({
+      products: productos,
+      setProducts: establecerProductos,
+      loading: cargando,
+      error,
+    }),
+    [productos, cargando, error],
+  );
+
+  return (
+    <ContextoProductos.Provider value={valor}>
       {hijos}
-    </ContextoProductos.Provider>;
+    </ContextoProductos.Provider>
+  );
 }
 export { ProveedorProductos };
+
 function usarProductos() {
-  const contexto = useContext(ContextoProductos);
-  if (!contexto) {
-    throw new Error("Este contexto debe usarse dentro de su proveedor.");
+  const context = useContext(ContextoProductos);
+
+  if (!context) {
+    throw new Error('usarProductos debe usarse dentro de ProveedorProductos');
   }
-  return contexto;
+
+  return context;
 }
 export { usarProductos };

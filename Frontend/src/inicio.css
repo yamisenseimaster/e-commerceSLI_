@@ -500,6 +500,10 @@ input.hero-search-input,
   color: #7d8695 !important;
 }
 
+[data-dashboard-mode='dark'] .shop-shell input.deslizador-precio {
+  background-color: transparent !important;
+}
+
 [data-dashboard-mode='dark'] .shop-shell input.hero-search-input,
 .shop-shell input.hero-search-input {
   background: transparent !important;
@@ -742,7 +746,7 @@ select:focus {
   }
 }
 
-/* drawer */
+/* Panel lateral */
 .drawer {
   overflow: visible;
 }
@@ -1055,16 +1059,4 @@ select:focus {
   .drawer .drawer-content-wrapper {
     width: 420px;
   }
-}
-
-/* El buscador comparte el fondo del contenedor en ambos temas. */
-input.buscador-chat,
-[data-dashboard-mode='dark'] input.buscador-chat {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-}
-
-[data-dashboard-mode='dark'] input.buscador-chat::placeholder {
-  color: #9ca3af;
 }

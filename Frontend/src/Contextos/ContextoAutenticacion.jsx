@@ -1,80 +1,124 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { apiAutenticacion as autenticacionApi } from '../servicios/api';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { apiAutenticacion } from '../servicios/api';
+
 const ContextoAutenticacion = createContext();
-function ProveedorAutenticacion({
-  children: hijos
-}) {
+
+function ProveedorAutenticacion({ children: hijos }) {
   const [usuario, establecerUsuario] = useState(() => {
     try {
       const guardado = localStorage.getItem('authUser');
-      return guardado && localStorage.getItem('authToken') ? JSON.parse(guardado) : null;
+      return guardado && localStorage.getItem('authToken')
+        ? JSON.parse(guardado)
+        : null;
     } catch {
       return null;
     }
   });
-  const [verificandoSesion, establecerVerificacionSesion] = useState(true);
+  const [verificandoSesion, establecerVerificandoSesion] = useState(true);
+
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
-    if (!token) {
-      establecerVerificacionSesion(false);
+    const credencial = localStorage.getItem('authToken');
+
+    if (!credencial) {
+      establecerVerificandoSesion(false);
       return;
     }
-    autenticacionApi.me().then(establecerUsuario).catch(() => {
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('authUser');
-      establecerUsuario(null);
-    }).finally(() => establecerVerificacionSesion(false));
+
+    apiAutenticacion
+      .consultarPerfil()
+      .then(establecerUsuario)
+      .catch(() => {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('authUser');
+        establecerUsuario(null);
+      })
+      .finally(() => establecerVerificandoSesion(false));
   }, []);
-  const guardarSesion = useCallback(sesion => {
+
+  const guardarSesion = useCallback((sesion) => {
     localStorage.setItem('authToken', sesion.token);
     localStorage.setItem('authUser', JSON.stringify(sesion.user));
     establecerUsuario(sesion.user);
   }, []);
-  const iniciarSesion = useCallback(async credenciales => {
-    const sesion = await autenticacionApi.iniciarSesion(credenciales);
-    guardarSesion(sesion);
-    return sesion.user;
-  }, [guardarSesion]);
-  const registrar = useCallback(async valores => {
-    const sesion = await autenticacionApi.registrar(valores);
-    guardarSesion(sesion);
-    return sesion.user;
-  }, [guardarSesion]);
-  const solicitudLoginCodigo = useCallback(valores => autenticacionApi.solicitarCodigo(valores), []);
-  const loginConCodigo = useCallback(async valores => {
-    const sesion = await autenticacionApi.verificarCodigo(valores);
-    guardarSesion(sesion);
-    return sesion.user;
-  }, [guardarSesion]);
-  const loginConSocial = useCallback(async (proveedor, valores) => {
-    const sesion = await autenticacionApi[proveedor](valores);
-    guardarSesion(sesion);
-    return sesion.user;
-  }, [guardarSesion]);
-  const actualizarPerfil = useCallback(async valores => {
-    const actualizadoUsuario = await autenticacionApi.actualizarPerfil(valores);
-    localStorage.setItem('authUser', JSON.stringify(actualizadoUsuario));
-    establecerUsuario(actualizadoUsuario);
-    return actualizadoUsuario;
+
+  const iniciarSesion = useCallback(
+    async (credenciales) => {
+      const sesion = await apiAutenticacion.iniciarSesion(credenciales);
+      guardarSesion(sesion);
+      return sesion.user;
+    },
+    [guardarSesion],
+  );
+
+  const registrar = useCallback(
+    async (valores) => {
+      const sesion = await apiAutenticacion.registrar(valores);
+      guardarSesion(sesion);
+      return sesion.user;
+    },
+    [guardarSesion],
+  );
+
+  const solicitarCodigoAcceso = useCallback(
+    (valores) => apiAutenticacion.solicitarCodigo(valores),
+    [],
+  );
+
+  const iniciarSesionConCodigo = useCallback(
+    async (valores) => {
+      const sesion = await apiAutenticacion.verificarCodigo(valores);
+      guardarSesion(sesion);
+      return sesion.user;
+    },
+    [guardarSesion],
+  );
+
+  const iniciarSesionSocial = useCallback(
+    async (proveedor, valores) => {
+      const sesion = await apiAutenticacion[proveedor](valores);
+      guardarSesion(sesion);
+      return sesion.user;
+    },
+    [guardarSesion],
+  );
+
+  const actualizarPerfil = useCallback(async (valores) => {
+    const usuarioActualizado = await apiAutenticacion.actualizarPerfil(valores);
+    localStorage.setItem('authUser', JSON.stringify(usuarioActualizado));
+    establecerUsuario(usuarioActualizado);
+    return usuarioActualizado;
   }, []);
-  const subirAvatar = useCallback(async urlDatos => {
-    const actualizadoUsuario = await autenticacionApi.subirAvatar(urlDatos);
-    localStorage.setItem('authUser', JSON.stringify(actualizadoUsuario));
-    establecerUsuario(actualizadoUsuario);
-    return actualizadoUsuario;
+
+  const subirAvatar = useCallback(async (dataUrl) => {
+    const usuarioActualizado = await apiAutenticacion.subirAvatar(dataUrl);
+    localStorage.setItem('authUser', JSON.stringify(usuarioActualizado));
+    establecerUsuario(usuarioActualizado);
+    return usuarioActualizado;
   }, []);
-  const cambiarContrasena = useCallback(async valores => {
-    const sesion = await autenticacionApi.cambiarContrasena(valores);
-    guardarSesion(sesion);
-    return sesion;
-  }, [guardarSesion]);
+
+  const cambiarContrasena = useCallback(
+    async (valores) => {
+      const sesion = await apiAutenticacion.cambiarContrasena(valores);
+      guardarSesion(sesion);
+      return sesion;
+    },
+    [guardarSesion],
+  );
+
   const cerrarSesion = useCallback(() => {
-    const token = localStorage.getItem('authToken');
-    if (token) autenticacionApi.cerrarSesion(token).catch(() => {});
+    apiAutenticacion.cerrarSesion().catch(() => {});
     localStorage.removeItem('authToken');
     localStorage.removeItem('authUser');
     establecerUsuario(null);
   }, []);
+
   useEffect(() => {
     const limpiarSesion = () => {
       localStorage.removeItem('authToken');
@@ -84,28 +128,54 @@ function ProveedorAutenticacion({
     window.addEventListener('auth-expired', limpiarSesion);
     return () => window.removeEventListener('auth-expired', limpiarSesion);
   }, []);
-  const valor = useMemo(() => ({
-    user: usuario,
-    verificandoSesion: verificandoSesion,
-    estaAutenticado: Boolean(usuario),
-    iniciarSesion: iniciarSesion,
-    registrar: registrar,
-    solicitarCodigoAcceso: solicitudLoginCodigo,
-    iniciarSesionConCodigo: loginConCodigo,
-    iniciarSesionSocial: loginConSocial,
-    actualizarPerfil: actualizarPerfil,
-    subirAvatar: subirAvatar,
-    cambiarContrasena: cambiarContrasena,
-    cerrarSesion: cerrarSesion
-  }), [usuario, verificandoSesion, iniciarSesion, registrar, solicitudLoginCodigo, loginConCodigo, loginConSocial, actualizarPerfil, subirAvatar, cambiarContrasena, cerrarSesion]);
-  return <ContextoAutenticacion.Provider value={valor}>{hijos}</ContextoAutenticacion.Provider>;
+
+  const valor = useMemo(
+    () => ({
+      user: usuario,
+      checkingSession: verificandoSesion,
+      isAuthenticated: Boolean(usuario),
+      login: iniciarSesion,
+      register: registrar,
+      requestLoginCode: solicitarCodigoAcceso,
+      loginWithCode: iniciarSesionConCodigo,
+      loginWithSocial: iniciarSesionSocial,
+      updateProfile: actualizarPerfil,
+      uploadAvatar: subirAvatar,
+      changePassword: cambiarContrasena,
+      logout: cerrarSesion,
+    }),
+    [
+      usuario,
+      verificandoSesion,
+      iniciarSesion,
+      registrar,
+      solicitarCodigoAcceso,
+      iniciarSesionConCodigo,
+      iniciarSesionSocial,
+      actualizarPerfil,
+      subirAvatar,
+      cambiarContrasena,
+      cerrarSesion,
+    ],
+  );
+
+  return (
+    <ContextoAutenticacion.Provider value={valor}>
+      {hijos}
+    </ContextoAutenticacion.Provider>
+  );
 }
 export { ProveedorAutenticacion };
+
 function usarAutenticacion() {
-  const contexto = useContext(ContextoAutenticacion);
-  if (!contexto) {
-    throw new Error("Este contexto debe usarse dentro de su proveedor.");
+  const context = useContext(ContextoAutenticacion);
+
+  if (!context) {
+    throw new Error(
+      'usarAutenticacion debe usarse dentro de ProveedorAutenticacion',
+    );
   }
-  return contexto;
+
+  return context;
 }
 export { usarAutenticacion };

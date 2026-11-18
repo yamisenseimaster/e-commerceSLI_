@@ -1,4 +1,4 @@
-const categoriaNombres = {
+const categoryNames = {
   Foods: 'Comidas',
   Drinks: 'Bebidas',
   Fruits: 'Frutas',
@@ -15,13 +15,15 @@ const categoriaNombres = {
   Watermelon: 'Sandía',
   Strawberries: 'Frutillas',
   Snacks: 'Aperitivos',
-  Oils: 'Aceites'
+  Oils: 'Aceites',
 };
+
 function traducirCategoria(valor) {
-  return categoriaNombres[valor] || valor;
+  return categoryNames[valor] || valor;
 }
 export { traducirCategoria };
-const demoProductoNombres = {
+
+const demoProductNames = {
   'Beans with noddles': 'Fideos con frijoles',
   'Rice, meat and Carrot': 'Arroz con carne y zanahoria',
   'Pork and potatoes': 'Cerdo con papas',
@@ -80,9 +82,10 @@ const demoProductoNombres = {
   'Sugar Free Orange Jelly': 'Gelatina de naranja sin azúcar',
   Pomelo: 'Pomelo',
   Pineapple: 'Piña',
-  'Sugar Free Guava Jelly': 'Gelatina de guayaba sin azúcar'
+  'Sugar Free Guava Jelly': 'Gelatina de guayaba sin azúcar',
 };
-const etiquetaNombres = {
+
+const tagNames = {
   fresh: 'fresco',
   demo: 'demostración',
   lunch: 'almuerzo',
@@ -96,27 +99,41 @@ const etiquetaNombres = {
   'fresh vegetable': 'verdura fresca',
   'fresh fruits': 'frutas frescas',
   fruits: 'frutas',
-  vegetable: 'verdura'
+  vegetable: 'verdura',
 };
-const demoDescription = 'Producto de inventario para el e-commerce. Disponible para venta, carrito, ordenes y administracion desde el dashboard.';
-const vegetableDescription = 'Verduras frescas seleccionadas para tu mesa. Ideales para preparar comidas variadas y nutritivas.';
-const fruitDescription = 'Frutas frescas seleccionadas para disfrutar solas o en tus recetas favoritas.';
-function traducirDescription(valor) {
-  if (valor === demoDescription) return 'Producto disponible para comprar en la tienda.';
-  if (valor?.startsWith('Most fresh vegetables are low in calories')) return vegetableDescription;
-  if (valor?.startsWith('In a botanical sense, a fruit')) return fruitDescription;
+
+const demoDescription =
+  'Producto de inventario para el e-commerce. Disponible para venta, carrito, ordenes y administracion desde el dashboard.';
+const vegetableDescription =
+  'Verduras frescas seleccionadas para tu mesa. Ideales para preparar comidas variadas y nutritivas.';
+const fruitDescription =
+  'Frutas frescas seleccionadas para disfrutar solas o en tus recetas favoritas.';
+
+function translateDescription(valor) {
+  if (valor === demoDescription)
+    return 'Producto disponible para comprar en la tienda.';
+  if (valor?.startsWith('Most fresh vegetables are low in calories'))
+    return vegetableDescription;
+  if (valor?.startsWith('In a botanical sense, a fruit'))
+    return fruitDescription;
   return valor;
 }
+
 function traducirCatalogo(valor) {
   if (Array.isArray(valor)) return valor.map(traducirCatalogo);
   if (!valor || typeof valor !== 'object') return valor;
-  return Object.fromEntries(Object.entries(valor).map(([clave, entrada]) => {
-    if (clave === 'title' && typeof entrada === 'string') return [clave, demoProductoNombres[entrada] || entrada];
-    if (clave === 'description' && typeof entrada === 'string') return [clave, traducirDescription(entrada)];
-    if ((clave === 'tag' || clave === 'tags') && Array.isArray(entrada)) {
-      return [clave, entrada.map(etiqueta => etiquetaNombres[etiqueta] || etiqueta)];
-    }
-    return [clave, traducirCatalogo(entrada)];
-  }));
+
+  return Object.fromEntries(
+    Object.entries(valor).map(([clave, entry]) => {
+      if (clave === 'title' && typeof entry === 'string')
+        return [clave, demoProductNames[entry] || entry];
+      if (clave === 'description' && typeof entry === 'string')
+        return [clave, translateDescription(entry)];
+      if ((clave === 'tag' || clave === 'tags') && Array.isArray(entry)) {
+        return [clave, entry.map((tag) => tagNames[tag] || tag)];
+      }
+      return [clave, traducirCatalogo(entry)];
+    }),
+  );
 }
 export { traducirCatalogo };
