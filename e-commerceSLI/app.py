@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 
 from database.db import init_db
+from routes.autenticacion import autenticacion
 from models.DetalleVenta import DetalleVenta
 from models.Persona import Persona
 from models.Producto import Producto
@@ -8,6 +9,7 @@ from models.Sucursal import Sucursal
 from models.Venta import Venta
 
 app = Flask(__name__)
+app.register_blueprint(autenticacion)
 
 
 @app.route("/home")

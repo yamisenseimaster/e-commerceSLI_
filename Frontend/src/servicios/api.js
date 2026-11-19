@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { traducirCatalogo } from '../utilidades/localizacion';
 
-const URL_API = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+const URL_API = import.meta.env.VITE_API_URL || '/api';
 
 const cliente = axios.create({
   baseURL: URL_API,
@@ -18,7 +18,7 @@ cliente.interceptors.request.use((configuracion) => {
   }
 
   return configuracion;
-});
+}, undefined, { synchronous: true });
 
 class ErrorApi extends Error {
   constructor(mensaje, estado) {

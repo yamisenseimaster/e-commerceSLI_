@@ -18,6 +18,12 @@ CREATE TABLE IF NOT EXISTS sucursales(
     direccion TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS sesiones_panel (
+    huella TEXT PRIMARY KEY,
+    id_persona INTEGER NOT NULL REFERENCES personas(id_persona),
+    vence INTEGER NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS productos(
     id_producto INTEGER PRIMARY KEY AUTOINCREMENT, 
     nombre_prod TEXT NOT NULL,
