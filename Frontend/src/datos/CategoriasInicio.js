@@ -3,20 +3,20 @@ const CategoriasInicio = [
     title: 'Foods',
     images: [
       {
-        img: '1.png',
+        img: '1.jpg',
         name: 'Lunch',
       },
       {
-        img: '2.png',
-        name: 'Salad',
-      },
-      {
-        img: '3.png',
+        img: '2.jpg',
         name: 'Breakfast',
       },
       {
-        img: '4.png',
-        name: 'Dinner',
+        img: '3.jpeg',
+        name: 'Lunch',
+      },
+      {
+        img: '7.png',
+        name: 'Fruits',
       },
     ],
   },
@@ -24,43 +24,40 @@ const CategoriasInicio = [
     title: 'Drinks',
     images: [
       {
-        img: '5.png',
+        img: '4.jpeg',
         name: 'Juices',
       },
       {
-        img: '6.png',
+        img: '5.png',
         name: 'Soda',
       },
       {
-        img: '7.png',
-        name: 'Cocktailes',
-      },
-      {
-        img: '8.png',
+        img: '6.jpg',
         name: 'Beers',
       },
     ],
   },
   {
-    title: 'Fruits',
+    title: 'Almacén',
     images: [
       {
-        img: '9.png',
-        name: 'Apple',
+        img: '10.jpg',
+        name: 'Infusiones',
       },
       {
-        img: '10.png',
-        name: 'Pineapple',
+        img: '11.jpg',
+        name: 'Mercaderia',
       },
       {
-        img: '11.png',
-        name: 'Watermelon',
+        img: '12.jpg',
+        name: 'Golosinas',
       },
       {
-        img: '12.png',
-        name: 'Strawberries',
+        img: '13.png',
+        name: 'Lácteos',
       },
     ],
   },
+
 ];
 export { CategoriasInicio };

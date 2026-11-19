@@ -120,6 +120,8 @@ function Aplicacion() {
                 </RutaProtegida>
               }
             />
+            <Route path="/about" element={<PaginaLegal />} />
+            <Route path="/faq" element={<PaginaLegal />} />
             <Route path="/terms" element={<PaginaLegal />} />
             <Route path="/privacy" element={<PaginaLegal />} />
             <Route
