@@ -17,23 +17,23 @@ def identificar_usuario():
     g.persona = persona["id_persona"]
 
 
-def resumen(conexion):
+def resumen_carrito(conexion, persona):
     filas = conexion.execute(f"""SELECT catalogo.*, carrito.cantidad AS unidades
         FROM ({consulta}) catalogo JOIN carrito ON carrito.producto = catalogo.id_producto
-        WHERE carrito.persona = ? ORDER BY carrito.rowid""", (g.persona,))
+        WHERE carrito.persona = ? ORDER BY carrito.rowid""", (persona,))
     articulos = []
     for fila in filas:
         producto = ficha(fila)
         precio = producto.get("salePrice") or producto["price"]
         subtotal = round(precio * fila["unidades"], 2)
-        articulos.append({"product": producto, "quantity": fila["unidades"], "lineTotal": subtotal})
-    return jsonify(data={"items": articulos, "total": round(sum(a["lineTotal"] for a in articulos), 2)})
+        articulos.append({"product": producto, "quantity": fila["unidades"], "unitPrice": precio, "lineTotal": subtotal})
+    return {"items": articulos, "total": round(sum(a["lineTotal"] for a in articulos), 2)}
 
 
 @carrito.get("")
 def consultar_carrito():
     with closing(get_db_connection()) as conexion:
-        return resumen(conexion)
+        return jsonify(data=resumen_carrito(conexion, g.persona))
 
 
 @carrito.post("/items")
@@ -67,4 +67,4 @@ def modificar_carrito(clave=None):
                 return jsonify(error="La cantidad supera el stock disponible."), 409
             conexion.execute("""INSERT INTO carrito VALUES (?, ?, ?) ON CONFLICT(persona,producto)
                              DO UPDATE SET cantidad=excluded.cantidad""", (*claves, cantidad))
-        return resumen(conexion)
+        return jsonify(data=resumen_carrito(conexion, g.persona))

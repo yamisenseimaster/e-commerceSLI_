@@ -34,8 +34,12 @@ const BarraNavegacion = ({ colorPortada }) => {
     if (!tienePortada) return;
     const portada = document.getElementById('portada');
     const actualizar = () => establecerSobrePortada(portada.getBoundingClientRect().bottom > barra.current.offsetHeight);
-    actualizar();
-    const observador = new ResizeObserver(actualizar);
+    const ajustarAltura = () => {
+      portada.style.setProperty('--alto-navegacion', `${barra.current.getBoundingClientRect().height}px`);
+      actualizar();
+    };
+    ajustarAltura();
+    const observador = new ResizeObserver(ajustarAltura);
     observador.observe(portada);
     observador.observe(barra.current);
     window.addEventListener('scroll', actualizar, { passive: true });

@@ -16,7 +16,7 @@ const estiloTarjeta =
   'rounded-[14px] border border-[#d9e0ea] bg-white shadow-sm shadow-slate-200/80 transition duration-200 hover:-translate-y-0.5 hover:shadow-md dark:border-[#2b2b2b] dark:bg-[#191919] dark:shadow-none dark:hover:border-[#383838]';
 
 function formatearDinero(valor) {
-  return `$${Number(valor || 0).toLocaleString('en-IN')}`;
+  return `$${Number(valor || 0).toLocaleString('es-AR', { maximumFractionDigits: 2 })}`;
 }
 
 function Administracion() {
@@ -29,7 +29,6 @@ function Administracion() {
     canceledOrders: 0,
     totalProducts: 0,
     totalCustomers: 0,
-    revenue: 0,
   });
   const [pedidos, establecerPedidos] = useState([]);
   const [activeMetricMenu, setActiveMetricMenu] = useState(null);
@@ -67,7 +66,6 @@ function Administracion() {
       outOfStock: sinStock,
     };
   }, [productosInventario]);
-  const ingresos = Number(estadisticas.revenue ?? estadisticas.totalSales ?? 0);
   const entregados = Number(estadisticas.completeOrders || 0);
   const totalClientes = Number(
     estadisticas.totalCustomers ?? estadisticas.customers ?? 0,
@@ -81,15 +79,15 @@ function Administracion() {
   const recentOrdersDisplay = [...pedidos]
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     .slice(0, 5);
-  const salesChart = useMemo(() => crearVentasMensuales(pedidos), [pedidos]);
+  const ventas = useMemo(() => resumirVentas(pedidos), [pedidos]);
 
   const miniCards = [
     {
-      title: 'Ingresos totales',
-      value: formatearDinero(ingresos),
+      title: 'Ventas de la demo',
+      value: formatearDinero(ventas.total),
       delta: `${pedidos.length} ped.`,
       color: tema.accent,
-      data: salesChart.data,
+      data: ventas.data,
     },
     {
       title: 'Clientes totales',
@@ -103,7 +101,7 @@ function Administracion() {
       value: entregados,
       delta: 'entregados',
       color: '#1fc2fb',
-      data: salesChart.entregados,
+      data: ventas.entregados,
     },
     {
       title: 'Productos totales',
@@ -142,7 +140,7 @@ function Administracion() {
         xaxis: { lines: { show: false } },
       },
       xaxis: {
-        categories: salesChart.labels,
+        categories: ventas.labels,
         axisBorder: { color: gridColor },
         axisTicks: { color: gridColor },
         labels: { style: { colors: textColor } },
@@ -163,7 +161,7 @@ function Administracion() {
         y: { formatter: (valor) => formatearDinero(valor) },
       },
     }),
-    [chartTheme, gridColor, salesChart.labels, textColor, tema.accent],
+    [chartTheme, gridColor, ventas.labels, textColor, tema.accent],
   );
 
   return (
@@ -242,16 +240,16 @@ function Administracion() {
           <Chart
             type="area"
             height={304}
-            series={[{ name: 'Ventas', data: salesChart.data }]}
+            series={[{ name: 'Ventas de la demo', data: ventas.data }]}
             options={analyticsOptions}
           />
         </section>
 
         <section className="grid min-w-0 gap-4 sm:gap-5 md:grid-cols-2 xl:col-span-3 xl:grid-cols-1">
           <TarjetaInformacion
-            title="Ingresos"
-            value={formatearDinero(ingresos)}
-            detail="Cobros de pedidos vigentes"
+            title="Ventas de la demo"
+            value={formatearDinero(ventas.total)}
+            detail="Incluye pagos aprobados y simulados"
             badge="API"
             icon={<MdPaid />}
             color="#22cdc6"
@@ -567,9 +565,10 @@ function formatearFecha(valor) {
   return new Date(valor).toLocaleDateString('es-ES');
 }
 
-function crearVentasMensuales(pedidos) {
+function resumirVentas(pedidos) {
   const months = [];
   const today = new Date();
+  let total = 0;
 
   for (let indice = 5; indice >= 0; indice -= 1) {
     const fecha = new Date(today.getFullYear(), today.getMonth() - indice, 1);
@@ -589,11 +588,16 @@ function crearVentasMensuales(pedidos) {
     const fecha = new Date(pedido.createdAt);
     const clave = `${fecha.getFullYear()}-${fecha.getMonth()}`;
     const mes = months.find((elemento) => elemento.key === clave);
-    if (mes && pedido.paymentStatus === 'Paid' && pedido.status !== 'Canceled') mes.total += Number(pedido.total || 0);
+    if (pedido.status !== 'Canceled' && ['Paid', 'Simulated'].includes(pedido.paymentStatus)) {
+      const importe = Number(pedido.total || 0);
+      total += importe;
+      if (mes) mes.total += importe;
+    }
     if (mes && pedido.status === 'Complete') mes.entregados += 1;
   });
 
   return {
+    total,
     labels: months.map((elemento) => elemento.label),
     data: months.map((elemento) => elemento.total),
     entregados: months.map((elemento) => elemento.entregados),

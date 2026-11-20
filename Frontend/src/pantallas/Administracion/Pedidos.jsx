@@ -272,7 +272,7 @@ function Pedidos() {
                   {traducirEstadoPedido(estado)}
                 </option>
               ))}
-              {paymentOptions.map((estado) => (
+              {[...paymentOptions, 'Simulated'].map((estado) => (
                 <option key={estado} value={estado}>
                   {traducirPago(estado)}
                 </option>
@@ -859,6 +859,7 @@ function formatearFechaYHora(valor) {
 
 function traducirPago(estado) {
   const labels = {
+    Simulated: 'Pago simulado',
     Paid: 'Pagado',
     Authorized: 'En espera de autorizacion',
     Pending: 'Pendiente',

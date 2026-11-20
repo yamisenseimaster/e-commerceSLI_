@@ -619,6 +619,7 @@ function formatearFechaYHora(valor) {
 
 function traducirEstado(estado) {
   const statuses = {
+    Simulated: 'Pago simulado',
     Pending: 'Pendiente',
     Complete: 'Completado',
     Canceled: 'Cancelado',

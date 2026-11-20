@@ -3,9 +3,11 @@ import re
 from collections import defaultdict
 from contextlib import closing
 from datetime import datetime
+from uuid import NAMESPACE_URL, uuid5
 
 from flask import Blueprint, g, jsonify, request
 from database.db import get_db_connection
+from routes.carrito import resumen_carrito
 
 panel = Blueprint("panel", __name__, url_prefix="/api")
 
@@ -26,6 +28,46 @@ def pedidos():
         return jsonify(data=[pedido_publico(fila) for fila in filas])
 
 
+@panel.post("/orders")
+def crear_pedido_simulado():
+    datos = request.get_json(silent=True)
+    if not isinstance(datos, dict) or datos.get("paymentMethod") not in ("Tarjeta", "Transferencia", "Efectivo"):
+        return jsonify(error="Elegí un medio de pago para la simulación."), 400
+    direccion = datos.get("shippingAddress")
+    campos = ("firstName", "lastName", "email", "phone", "street", "city", "country", "zip")
+    if not isinstance(direccion, dict) or not all(
+        isinstance(direccion.get(c), str) and 0 < len(direccion[c].strip()) <= 254 for c in campos
+    ):
+        return jsonify(error="Completá los datos personales y de envío."), 400
+    direccion = {c: direccion[c].strip() for c in campos}
+    intento = request.headers.get("Idempotency-Key", "")
+    if not 1 <= len(intento) <= 128:
+        return jsonify(error="Falta una referencia válida para el pedido."), 400
+
+    cliente = g.usuario["id_persona"]
+    clave = str(uuid5(NAMESPACE_URL, f"mercadito/pedidos/{cliente}/{intento}"))
+    with closing(get_db_connection()) as conexion, conexion:
+        conexion.execute("BEGIN IMMEDIATE")
+        anterior = conexion.execute("SELECT * FROM pedidos WHERE id=?", (clave,)).fetchone()
+        if anterior:
+            return jsonify(data=pedido_publico(anterior))
+        carrito = resumen_carrito(conexion, cliente)
+        if not carrito["items"]:
+            return jsonify(error="Agregá un producto al carrito antes de pagar."), 409
+        articulos = [
+            {"productId": item["product"]["id"], "title": item["product"]["title"],
+             "quantity": item["quantity"], "unitPrice": item["unitPrice"]}
+            for item in carrito["items"]
+        ]
+        conexion.execute(
+            """INSERT INTO pedidos (id, cliente, estado_pago, metodo, total, direccion, articulos)
+               VALUES (?, ?, 'Simulated', ?, ?, ?, ?)""",
+            (clave, cliente, datos["paymentMethod"], carrito["total"], json.dumps(direccion), json.dumps(articulos)),
+        )
+        fila = conexion.execute("SELECT * FROM pedidos WHERE id=?", (clave,)).fetchone()
+        return jsonify(data=pedido_publico(fila)), 201
+
+
 @panel.route("/admin/orders/<clave>", methods=["PUT", "DELETE"])
 def modificar_pedido(clave):
     with closing(get_db_connection()) as conexion, conexion:
@@ -38,7 +80,7 @@ def modificar_pedido(clave):
             return "", 204
         datos = request.get_json(silent=True)
         if (not isinstance(datos, dict) or datos.get("status") not in ("Pending", "Processing", "Shipped", "Complete", "Canceled")
-                or datos.get("paymentStatus") not in ("Pending", "Authorized", "Paid", "Failed")):
+                or datos.get("paymentStatus") not in ("Pending", "Authorized", "Paid", "Failed", fila["estado_pago"])):
             return jsonify(error="Revisá el estado del pedido y del pago."), 400
         if fila["metodo"] != "Cash" and datos["paymentStatus"] != fila["estado_pago"]:
             return jsonify(error="El proveedor de pago gestiona este cobro."), 400

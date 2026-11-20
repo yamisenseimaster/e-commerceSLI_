@@ -126,7 +126,7 @@ function PantallaInicio() {
       <div className="min-h-screen bg-[url('data:image/svg+xml,%3Csvg_xmlns=%22http://www.w3.org/2000/svg%22_width=%22160%22_height=%22160%22_viewBox=%220_0_160_160%22%3E%3Cpath_d=%22M36_52h34a11_11_0_0_0_0-22_14_14_0_0_0-26-5_12_12_0_0_0-8_27Z%22_fill=%22none%22_stroke=%22%236ba5e7%22_stroke-opacity=%220.18%22_stroke-width=%221.5%22/%3E%3Cpath_d=%22M106_122h32a10_10_0_0_0_0-20_13_13_0_0_0-24-4_11_11_0_0_0-8_24Z%22_fill=%22none%22_stroke=%22%23e0a93b%22_stroke-opacity=%220.22%22_stroke-width=%221.5%22/%3E%3Cpath_d=%22M124_34v12M118_40h12M38_118v10M33_123h10%22_stroke=%22%236ba5e7%22_stroke-opacity=%220.22%22_stroke-width=%221.5%22_stroke-linecap=%22round%22/%3E%3C/svg%3E'),radial-gradient(ellipse_68%_38%_at_12%_14%,#fcd972_0%,transparent_72%),radial-gradient(ellipse_72%_35%_at_86%_26%,#a6d2ff_0%,transparent_70%),radial-gradient(ellipse_64%_40%_at_22%_54%,#fde28a_0%,transparent_74%),radial-gradient(ellipse_76%_36%_at_80%_78%,#b3d9ff_0%,transparent_72%),linear-gradient(165deg,#fdf8e6_0%,#eef6ff_50%,#fef9e6_100%)] pb-28 text-[#111827] dark:bg-[radial-gradient(circle_at_top,_#162622_0%,_#101113_46%,_#0a0a0b_100%)] dark:text-[#f4f4f5] sm:pb-10">
         <section id="portada">
           <div
-            className="relative overflow-hidden px-4 py-6 transition-colors duration-700 sm:px-8 lg:py-8"
+            className="relative flex min-h-[calc(100dvh_-_var(--alto-navegacion,4rem))] items-center overflow-hidden px-4 pb-20 pt-6 transition-colors duration-700 sm:px-8 lg:py-8"
             style={{
               backgroundColor: esOscuro
                 ? diapositivaActiva.darkBg
@@ -141,7 +141,7 @@ function PantallaInicio() {
               }}
             />
 
-            <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-5 sm:gap-7 lg:grid lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:items-center">
+            <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-5 sm:gap-7 md:grid md:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] md:items-center">
               <div className="max-w-[560px]">
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -153,7 +153,7 @@ function PantallaInicio() {
                     <p className="mb-3 inline-flex rounded-full border border-[#84bcff] bg-[#e3f0ff]/90 px-3.5 py-1 text-[10px] font-black uppercase tracking-[0.2em] text-[#153973] shadow-2xs backdrop-blur-xl dark:border-[#3d6b9c] dark:bg-[#1a3047] dark:text-[#9ec5f0] sm:text-[11px]">
                       {diapositivaActiva.eyebrow}
                     </p>
-                    <h1 className="font-display text-[34px] font-black leading-[1.04] tracking-tight text-[#101828] dark:text-[#f8fafc] sm:text-[44px] lg:text-[48px]">
+                    <h1 className="font-display text-[34px] font-black leading-[1.04] tracking-tight text-[#101828] dark:text-[#f8fafc] sm:text-[44px] lg:text-[clamp(3rem,4.4vw,4.5rem)]">
                       {diapositivaActiva.titlePrefix}{' '}
                       <span className="text-[#153973] dark:text-[#8ec5ff]">
                         {diapositivaActiva.titleBlue}
@@ -192,10 +192,10 @@ function PantallaInicio() {
               </div>
 
               {/* Columna derecha: Óvalo contenedor de la imagen + tarjetitas */}
-              <div className="relative mx-auto flex min-h-[260px] w-full max-w-[420px] items-center justify-center sm:min-h-[340px] lg:row-span-2">
+              <div className="relative order-last mx-auto flex w-full max-w-[520px] items-center justify-center py-3 md:order-none md:row-span-2">
                 <div className="absolute h-[260px] w-[260px] rotate-6 rounded-[50%] bg-white/55 blur-2xl dark:bg-main/15 sm:h-[310px] sm:w-[310px]" />
 
-                <div className="relative z-10 flex h-[250px] w-[225px] items-center justify-center overflow-hidden rounded-[50%] border-[3px] border-[#7ab8ff] bg-white/90 p-3 shadow-[0_22px_40px_-10px_rgba(21,57,115,0.22)] ring-4 ring-white/75 backdrop-blur-md dark:border-[#3d6b9c] dark:bg-[#182635]/90 dark:ring-white/10 sm:h-[315px] sm:w-[280px] sm:p-4">
+                <div className="relative z-10 aspect-[8/9] w-[min(60vw,225px)] overflow-hidden rounded-[50%] border-[3px] border-[#7ab8ff] bg-white/90 shadow-[0_22px_40px_-10px_rgba(21,57,115,0.22)] ring-4 ring-white/75 backdrop-blur-md dark:border-[#3d6b9c] dark:bg-[#182635]/90 dark:ring-white/10 md:w-[min(30vw,52dvh,420px)]">
                   <AnimatePresence mode="wait">
                     {productoPortada && (
                       <motion.img
@@ -208,7 +208,7 @@ function PantallaInicio() {
                         alt={productoPortada.title}
                         fetchPriority="high"
                         decoding="async"
-                        className="h-full w-full rounded-[50%] object-contain drop-shadow-[0_18px_24px_rgba(15,23,42,0.18)]"
+                        className="absolute inset-0 h-full w-full object-cover"
                         initial={{ opacity: 0, rotate: -6, scale: 0.9, y: 16 }}
                         animate={{ opacity: 1, rotate: 0, scale: 1, y: 0 }}
                         exit={{ opacity: 0, rotate: 6, scale: 0.94, y: -12 }}
@@ -252,7 +252,7 @@ function PantallaInicio() {
                 </div>
               </div>
 
-              <div className="lg:col-start-1 lg:max-w-[540px]">
+              <div className="md:col-start-1 md:max-w-[540px]">
                 <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:gap-3">
                   <Link
                     to="/shop"
