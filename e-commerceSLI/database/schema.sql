@@ -41,3 +41,17 @@ CREATE TABLE IF NOT EXISTS stock_por_sucursal(
     FOREIGN KEY(id_producto) REFERENCES productos(id_producto) ON DELETE CASCADE,
     FOREIGN KEY(id_sucursal) REFERENCES sucursales(id_sucursal) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS fichas_catalogo (
+    id_producto INTEGER PRIMARY KEY REFERENCES productos(id_producto) ON DELETE CASCADE,
+    clave TEXT NOT NULL UNIQUE,
+    datos TEXT NOT NULL,
+    creado TEXT DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS configuracion_catalogo (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
+    sucursal INTEGER NOT NULL REFERENCES sucursales(id_sucursal)
+);
+CREATE TABLE IF NOT EXISTS imagenes_catalogo (
+    clave TEXT PRIMARY KEY, tipo TEXT NOT NULL, contenido BLOB NOT NULL
+);

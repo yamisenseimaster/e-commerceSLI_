@@ -29,9 +29,6 @@ const DetalleProducto = lazy(
 );
 const Clientes = lazy(() => import('./pantallas/Administracion/Clientes'));
 const Calendario = lazy(() => import('./pantallas/Administracion/Calendario'));
-const Conversaciones = lazy(
-  () => import('./pantallas/Administracion/Conversaciones'),
-);
 const PaginaNoEncontrada = lazy(() => import('./pantallas/PaginaNoEncontrada'));
 const PaginaLegal = lazy(() => import('./pantallas/PaginaLegal'));
 
@@ -93,14 +90,6 @@ function Aplicacion() {
               element={
                 <RutaProtegida adminOnly>
                   <Calendario />
-                </RutaProtegida>
-              }
-            />
-            <Route
-              path="/chat"
-              element={
-                <RutaProtegida>
-                  <Conversaciones />
                 </RutaProtegida>
               }
             />

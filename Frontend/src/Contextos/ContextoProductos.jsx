@@ -6,7 +6,7 @@ import React, {
   useState,
 } from 'react';
 import { apiProductos } from '../servicios/api';
-import { DatosProductos } from '../datos/DatosProductos';
+import DatosProductos from '../datos/catalogoInicial.json';
 import { traducirCatalogo } from '../utilidades/localizacion';
 
 const ContextoProductos = createContext();

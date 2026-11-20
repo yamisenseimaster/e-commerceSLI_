@@ -97,7 +97,7 @@ function Carrito({ cartDrawerOpen, closeCartDrawer }) {
                     <div className="flex h-24 items-center justify-center rounded-[15px] bg-[#eef5f2] p-2 dark:bg-white/[0.06]">
                       <img
                         alt={producto.title}
-                        src={`/images/${producto.image}`}
+                        src={producto.image?.startsWith('/products/') ? `/images${producto.image}` : producto.image}
                         loading="lazy"
                         decoding="async"
                         className="h-full w-full object-contain"

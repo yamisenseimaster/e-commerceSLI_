@@ -1,0 +1,1261 @@
+[
+  {
+    "price": 4000,
+    "discount": 30,
+    "tag": [
+      "lettuce",
+      "fresh vegetable"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004ee1",
+    "title": "Sándwich vegetariano",
+    "slug": "sandwich-vegetariano",
+    "image": "/products/01.jpg",
+    "salePrice": 2800,
+    "quantity": 70,
+    "type": "Lunch",
+    "description": "Sándwich vegetariano en pan con semillas, relleno de palta, tomate, lechuga, zanahoria y queso fresco."
+  },
+  {
+    "price": 2500,
+    "discount": 0,
+    "tag": [
+      "jamon con lechuga"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004ee0",
+    "title": "Sándwich de miga",
+    "slug": "sandwich-de-miga",
+    "image": "/products/028.jpeg",
+    "salePrice": 2500,
+    "quantity": 60,
+    "type": "Lunch",
+    "description": "Sándwich fresco de ternera y lechuga, listo para llevar."
+  },
+  {
+    "price": 2500,
+    "discount": 0,
+    "tag": [
+      "pollo con huevo"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004edf",
+    "title": "Sándwich",
+    "slug": "sandwich",
+    "image": "/products/029.jpeg",
+    "salePrice": 2500,
+    "quantity": 100,
+    "type": "Lunch",
+    "description": "Sándwich artesanal de pollo y huevo, cremoso, fresco y tentador."
+  },
+  {
+    "price": 2000,
+    "discount": 20,
+    "tag": [
+      "café",
+      "infusiones",
+      "desayuno"
+    ],
+    "flashSale": true,
+    "_id": "62f3633eb77a510016004ed8",
+    "title": "Café expreso",
+    "slug": "cafe-expreso",
+    "image": "/products/011.jpg",
+    "salePrice": 1600,
+    "quantity": 100,
+    "type": "Breakfast",
+    "description": "Café en grano calentito"
+  },
+  {
+    "price": 2000,
+    "discount": 0,
+    "tag": [
+      "dulce",
+      "desayuno"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004ed7",
+    "title": "Waffles",
+    "slug": "waffles",
+    "image": "/products/012.png",
+    "salePrice": 2000,
+    "quantity": 50,
+    "type": "Breakfast",
+    "description": "Crujiente por fuera y esponjoso por dentro, waffles recién horneado un antojo perfecto para disfrutar en cualquier momento."
+  },
+  {
+    "price": 3000,
+    "discount": 0,
+    "tag": [
+      "frutas frescas",
+      "harinas",
+      "desayuno"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004ed6",
+    "title": "Panqueques con frutas",
+    "slug": "panqueques-con-frutas",
+    "image": "/products/013.png",
+    "salePrice": 3000,
+    "quantity": 50,
+    "type": "Breakfast",
+    "description": "Esponjosos panqueques recién hechos, servidos con frutas frescas de estación para un bocado dulce irresistible."
+  },
+  {
+    "price": 1000,
+    "discount": 0,
+    "tag": [
+      "dulce",
+      "harinas",
+      "desayuno"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004ed5",
+    "title": "Medialuna",
+    "slug": "medialuna",
+    "image": "/products/015.jpeg",
+    "salePrice": 1000,
+    "quantity": 130,
+    "type": "Breakfast",
+    "description": "Medialuna artesanal dorada, súper tierna, hojaldrada y con brillo dulce."
+  },
+  {
+    "price": 3000,
+    "discount": 0,
+    "tag": [
+      "sabor naranja"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004ed0",
+    "title": "Cepita",
+    "slug": "cepita",
+    "image": "/products/020.jpeg",
+    "salePrice": 3000,
+    "quantity": 20,
+    "type": "Juices",
+    "description": "Clásico jugo Cepita en botella, bien frío, dulce y súper refrescante."
+  },
+  {
+    "price": 4000,
+    "discount": 10,
+    "tag": [
+      "sabor naranja"
+    ],
+    "flashSale": true,
+    "_id": "62f3633eb77a510016004ecf",
+    "title": "Citric",
+    "slug": "citric",
+    "image": "/products/021.jpg",
+    "salePrice": 3600,
+    "quantity": 100,
+    "type": "Juices",
+    "description": "Jugo cítrico de naranja, natural, refrescante y listo para compartir."
+  },
+  {
+    "price": 1000,
+    "discount": 0,
+    "tag": [
+      "sabor pera"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004ece",
+    "title": "Aquarius",
+    "slug": "aquarius",
+    "image": "/products/022.jpg",
+    "salePrice": 1000,
+    "quantity": 150,
+    "type": "Juices",
+    "description": "Agua saborizada Aquarius de pera, bien fría, ligera y refrescante."
+  },
+  {
+    "price": 1500,
+    "discount": 0,
+    "tag": [
+      "en Lata"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004ecc",
+    "title": "Fanta",
+    "slug": "fanta",
+    "image": "/products/61.png",
+    "salePrice": 1500,
+    "quantity": 100,
+    "type": "Soda",
+    "description": "Gaseosa en lata de 354 ml, burbujeante y bien fría."
+  },
+  {
+    "price": 1600,
+    "discount": 0,
+    "tag": [
+      "en Lata"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004ecb",
+    "title": "Coca Cola",
+    "slug": "coca-cola",
+    "image": "/products/62.png",
+    "salePrice": 1600,
+    "quantity": 100,
+    "type": "Soda",
+    "description": "Gaseosa en lata de 354 ml, burbujeante y bien fría."
+  },
+  {
+    "price": 1000,
+    "discount": 0,
+    "tag": [
+      "en lata"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004eca",
+    "title": "Soda",
+    "slug": "soda",
+    "image": "/products/63.png",
+    "salePrice": 1000,
+    "quantity": 60,
+    "type": "Soda",
+    "description": "Refresco en lata de 354 ml, burbujeante y bien fría."
+  },
+  {
+    "price": 1300,
+    "discount": 0,
+    "tag": [
+      "en Lata"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004ec9",
+    "title": "Pepsi",
+    "slug": "pepsi",
+    "image": "/products/64.png",
+    "salePrice": 1300,
+    "quantity": 80,
+    "type": "Soda",
+    "description": "Gaseosa en lata de 354 ml, burbujeante y bien fría."
+  },
+  {
+    "price": 1300,
+    "discount": 0,
+    "tag": [
+      "energizante"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004ecb1",
+    "title": "Monster",
+    "slug": "monster",
+    "image": "/products/023.jpg",
+    "salePrice": 1300,
+    "quantity": 80,
+    "type": "Soda",
+    "description": "Monster verde, burbujeante y bien frío."
+  },
+  {
+    "price": 2000,
+    "discount": 0,
+    "tag": [
+      "con % de alcohol"
+    ],
+    "flashSale": true,
+    "_id": "62f3633eb77a510016004ec5",
+    "title": "Cerveza Stella Artois",
+    "slug": "cerveza-stella-artois",
+    "image": "/products/024.jpg",
+    "salePrice": 2000,
+    "quantity": 100,
+    "type": "Beers",
+    "description": "Cerveza rubia ligera y refrescante, servida siempre bien helada."
+  },
+  {
+    "price": 2000,
+    "discount": 0,
+    "tag": [
+      "con % de alcohol"
+    ],
+    "flashSale": true,
+    "_id": "62f3633eb77a510016004ec4",
+    "title": "Cerveza Schneider",
+    "slug": "cerveza-schneider",
+    "image": "/products/025.jpg",
+    "salePrice": 2000,
+    "quantity": 100,
+    "type": "Beers",
+    "description": "Cerveza rubia ligera y refrescante, servida siempre bien helada."
+  },
+  {
+    "price": 2000,
+    "discount": 0,
+    "tag": [
+      "con % de alcohol"
+    ],
+    "flashSale": true,
+    "_id": "62f3633eb77a510016004ec3",
+    "title": "Cerveza Quilmes",
+    "slug": "cerveza-quilmes",
+    "image": "/products/026.jpg",
+    "salePrice": 2000,
+    "quantity": 100,
+    "type": "Beers",
+    "description": "Cerveza rubia ligera y refrescante, servida siempre bien helada."
+  },
+  {
+    "price": 3000,
+    "discount": 0,
+    "tag": [
+      "por kilo"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004ebf",
+    "title": "Manzana verde",
+    "slug": "manzana-verde",
+    "image": "/products/91.png",
+    "salePrice": 3000,
+    "quantity": 100,
+    "type": "Fruits",
+    "description": "Manzana verde fresca, bien crujiente, jugosa y con toque ácido."
+  },
+  {
+    "price": 2500,
+    "discount": 0,
+    "tag": [
+      "por kilo"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004ebd",
+    "title": "Manzana criolla",
+    "slug": "manzana-criolla",
+    "image": "/products/93.png",
+    "salePrice": 2500,
+    "quantity": 120,
+    "type": "Fruits",
+    "description": "Manzana fresca, arenosa y jugosa"
+  },
+  {
+    "price": 2500,
+    "discount": 0,
+    "tag": [
+      "por kilo"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004ebc",
+    "title": "Manzana roja",
+    "slug": "manzana-roja",
+    "image": "/products/94.png",
+    "salePrice": 2500,
+    "quantity": 110,
+    "type": "Fruits",
+    "description": "Manzana roja fresca, bien crujiente, dulce y jugosa."
+  },
+  {
+    "price": 4000,
+    "discount": 5,
+    "tag": [
+      "por unidad"
+    ],
+    "flashSale": true,
+    "_id": "62f3633eb77a510016004ebb",
+    "title": "Ananá",
+    "slug": "anana",
+    "image": "/products/102.png",
+    "salePrice": 3800,
+    "quantity": 50,
+    "type": "Fruits",
+    "description": "Ananá súper jugosa, dulce y muy refrescante."
+  },
+  {
+    "price": 4000,
+    "discount": 0,
+    "tag": [
+      "po unidad"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004eba",
+    "title": "Ananá madura",
+    "slug": "anana-madura",
+    "image": "/products/104.png",
+    "salePrice": 4000,
+    "quantity": 100,
+    "type": "Fruits",
+    "description": "Ananá fresca en trozos, súper jugosa, dulce y muy refrescante"
+  },
+  {
+    "price": 500,
+    "discount": 0,
+    "tag": [
+      "fresh fruits",
+      "fruits"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004eb7",
+    "title": "Porción de Sandia",
+    "slug": "porcion-de-sandia",
+    "image": "/products/111.png",
+    "salePrice": 500,
+    "quantity": 100,
+    "type": "Fruits",
+    "description": "Porciónde sandia ideal para un postre."
+  },
+  {
+    "price": 3000,
+    "discount": 0,
+    "tag": [
+      "fresh fruits",
+      "fruits"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004eb5",
+    "title": "Sandia",
+    "slug": "sandia",
+    "image": "/products/113.png",
+    "salePrice": 3000,
+    "quantity": 50,
+    "type": "Fruits",
+    "description": "Sandia dulce y refrescante para compartir en familia"
+  },
+  {
+    "price": 2000,
+    "discount": 0,
+    "tag": [
+      "por kilo"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004eb2",
+    "title": "Frutilla",
+    "slug": "frutilla",
+    "image": "/products/121.png",
+    "salePrice": 2000,
+    "quantity": 50,
+    "type": "Fruits",
+    "description": "Frutillas dulces"
+  },
+  {
+    "price": 2000,
+    "discount": 20,
+    "tag": [
+      "por docena"
+    ],
+    "flashSale": true,
+    "_id": "62f3633eb77a510016004eb1",
+    "title": "Naranja",
+    "slug": "naranja",
+    "image": "/products/122.png",
+    "salePrice": 1600,
+    "quantity": 100,
+    "type": "Fruits",
+    "description": "Naranjas comunes y bien dulces."
+  },
+  {
+    "price": 2000,
+    "discount": 82,
+    "tag": [
+      "por docena"
+    ],
+    "flashSale": true,
+    "_id": "62f3633eb77a510016004eb0",
+    "title": "Limones",
+    "slug": "limones",
+    "image": "/products/123.png",
+    "salePrice": 1400,
+    "quantity": 100,
+    "type": "Fruits",
+    "description": "Citrico para darle gusto a tus comidas o para un buen refresco."
+  },
+  {
+    "price": 2000,
+    "discount": 0,
+    "tag": [
+      "sabor a queso"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004eaz",
+    "title": "Cheez It",
+    "slug": "cheez-it",
+    "image": "/products/131.png",
+    "salePrice": 2000,
+    "quantity": 70,
+    "type": "Snacks",
+    "description": "Clásicos Cheez crujientes de queso, el snack perfecto para picar."
+  },
+  {
+    "price": 4500,
+    "discount": 0,
+    "tag": [
+      "salado"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004eay",
+    "title": "Lays",
+    "slug": "lays",
+    "image": "/products/132.png",
+    "salePrice": 4500,
+    "quantity": 70,
+    "type": "Snacks",
+    "description": "Clásicas papas fritas versión light, crujientes, suaves y muy ricas."
+  },
+  {
+    "price": 2000,
+    "discount": 0,
+    "tag": [
+      "sabor a queso"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004eap",
+    "title": "Cheetos",
+    "slug": "Chetos",
+    "image": "/products/133.png",
+    "salePrice": 2000,
+    "quantity": 70,
+    "type": "Snacks",
+    "description": "Clásicos Cheetos crujientes de queso, el snack perfecto para picar."
+  },
+  {
+    "price": 1500,
+    "discount": 0,
+    "tag": [
+      "galleta"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004eab",
+    "title": "Saladix",
+    "slug": "saladix",
+    "image": "/products/0151.jpg",
+    "salePrice": 1500,
+    "quantity": 70,
+    "type": "Snacks",
+    "description": "Galletitas saladas sabor a jamón."
+  },
+  {
+    "price": 1500,
+    "discount": 0,
+    "tag": [
+      "galleta"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004eac",
+    "title": "Kesitas",
+    "slug": "kesitas",
+    "image": "/products/0150.jpg",
+    "salePrice": 1500,
+    "quantity": 70,
+    "type": "Snacks",
+    "description": "Galletitas saladas sabor a queso."
+  },
+  {
+    "price": 1500,
+    "discount": 0,
+    "tag": [
+      "galleta"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004ead",
+    "title": "Rex",
+    "slug": "rex",
+    "image": "/products/0152.jpg",
+    "salePrice": 1500,
+    "quantity": 70,
+    "type": "Snacks",
+    "description": "Galletitas saladas ideales para disfrutar entre comidas."
+  },
+  {
+    "price": 4000,
+    "discount": 0,
+    "tag": [
+      "cocina"
+    ],
+    "flashSale": true,
+    "_id": "62f3633eb77a510016004eaa",
+    "title": "Aceite Sufi",
+    "slug": "aceite-sufi",
+    "image": "/products/141.png",
+    "salePrice": 4000,
+    "quantity": 70,
+    "type": "Oils",
+    "description": "Aceite vegetariano"
+  },
+  {
+    "price": 5000,
+    "discount": 0,
+    "tag": [
+      "organic food",
+      "guava-jelly"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004ea9",
+    "title": "Aceite Dalila",
+    "slug": "aceite-dalida",
+    "image": "/products/142.png",
+    "salePrice": 5000,
+    "quantity": 70,
+    "type": "Oils",
+    "description": "Aceite vegetariano"
+  },
+  {
+    "price": 5000,
+    "discount": 0,
+    "tag": [
+      "oliva"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004ea8",
+    "title": "Aceite de oliva",
+    "slug": "aceite-de-oliva",
+    "image": "/products/143.png",
+    "salePrice": 5000,
+    "quantity": 70,
+    "type": "Oils",
+    "description": "Aceite ideal para tus ensaladas."
+  },
+  {
+    "price": 3800,
+    "discount": 0,
+    "tag": [
+      "marca mañanita"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004f01",
+    "title": "Yerba Mate Tradicional 1kg",
+    "slug": "yerba-mate-tradicional-1kg",
+    "image": "/products/0153.jpg",
+    "salePrice": 3000,
+    "quantity": 50,
+    "type": "Infusiones",
+    "description": "Yerba mate elaborada con palo, estacionamiento natural de 12 meses, sabor suave y duradero ideal para compartir."
+  },
+  {
+    "price": 1500,
+    "discount": 10,
+    "tag": [
+      "te"
+    ],
+    "flashSale": true,
+    "_id": "62f3633eb77a510016004f02",
+    "title": "Té Negro Clásico x 50 saquitos",
+    "slug": "te-negro-clasico-x-50-saquitos",
+    "image": "/products/0154.jpg",
+    "salePrice": 1350,
+    "quantity": 80,
+    "type": "Infusiones",
+    "description": "Selección de hebras de té negro de aroma intenso y cuerpo equilibrado en saquitos individuales."
+  },
+  {
+    "price": 1500,
+    "discount": 10,
+    "tag": [
+      "te"
+    ],
+    "flashSale": true,
+    "_id": "62f3633eb77a510016004f03",
+    "title": "Té verde x 50 saquitos",
+    "slug": "te-verde-x-50-saquitos",
+    "image": "/products/0157.jpg",
+    "salePrice": 1350,
+    "quantity": 80,
+    "type": "Infusiones",
+    "description": "Té verde natural, suave, aromático y lleno de frescura herbal."
+  },
+  {
+    "price": 2500,
+    "discount": 10,
+    "tag": [
+      "café dolca"
+    ],
+    "flashSale": true,
+    "_id": "62f3633eb77a510016004h02",
+    "title": "Dolca pack ahorro",
+    "slug": "dolca-pack-ahorro",
+    "image": "/products/0155.jpg",
+    "salePrice": 2250,
+    "quantity": 80,
+    "type": "Infusiones",
+    "description": "Café intenso, aromático y con cuerpo irresistible."
+  },
+  {
+    "price": 1500,
+    "discount": 0,
+    "tag": [
+      "sabor a cacao"
+    ],
+    "flashSale": true,
+    "_id": "62f3633eb77a510016004h03",
+    "title": "Nesquik",
+    "slug": "nesquik",
+    "image": "/products/0156.jpg",
+    "salePrice": 1500,
+    "quantity": 80,
+    "type": "Infusiones",
+    "description": "Deliciosa leche chocolatada Nesquik, cremosa, dulce y súper reconfortante."
+  },
+  {
+    "price": 1650,
+    "discount": 0,
+    "tag": [
+      "pasta"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004f03-fideos-dedalitos",
+    "title": "Fideos Dedalitos",
+    "slug": "fideos-dedalitos",
+    "image": "/products/0159.jpg",
+    "salePrice": 1650,
+    "quantity": 120,
+    "type": "Mercaderia",
+    "description": "Paquete de fideos de 500 g, rendidores y de calidad."
+  },
+  {
+    "price": 1650,
+    "discount": 0,
+    "tag": [
+      "pasta"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004f04",
+    "title": "Fideos Coditos",
+    "slug": "fideos-coditos",
+    "image": "/products/0160.jpg",
+    "salePrice": 1650,
+    "quantity": 95,
+    "type": "Mercaderia",
+    "description": "Paquete de fideos de 500 g, rendidores y de calidad."
+  },
+  {
+    "price": 2000,
+    "discount": 0,
+    "tag": [
+      "sal"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004f15",
+    "title": "Celusal",
+    "slug": "celusal",
+    "image": "/products/0158.jpg",
+    "salePrice": 2000,
+    "quantity": 50,
+    "type": "Mercaderia",
+    "description": "Sal fina de mesa indispensable para realzar el sabor de todas tus comidas diarias."
+  },
+  {
+    "price": 2650,
+    "discount": 0,
+    "tag": [
+      "arroz blanco"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004f16",
+    "title": "Arroz Gallo Oro",
+    "slug": "arroz-gallo-oro",
+    "image": "/products/0161.jpg",
+    "salePrice": 2650,
+    "quantity": 95,
+    "type": "Mercaderia",
+    "description": "Arroz parboil Gallo Oro que nunca se pasa ni se pega en tus comidas."
+  },
+  {
+    "price": 1500,
+    "discount": 0,
+    "tag": [
+      "harina"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004f17",
+    "title": "Harina Pureza",
+    "slug": "harina-pureza",
+    "image": "/products/0162.jpg",
+    "salePrice": 1500,
+    "quantity": 95,
+    "type": "Mercaderia",
+    "description": "Harina de trigo Pureza de máxima calidad, ideal para amasar panes, pizzas y pastas."
+  },
+  {
+    "price": 2500,
+    "discount": 0,
+    "tag": [
+      "harina"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004f18",
+    "title": "Blancaflor",
+    "slug": "blancaflor",
+    "image": "/products/0163.jpg",
+    "salePrice": 2500,
+    "quantity": 95,
+    "type": "Mercaderia",
+    "description": "Harina leudante Blancaflor, perfecta para lograr tortas, bizcochuelos y panificados caseros súper esponjosos siempre."
+  },
+  {
+    "price": 2500,
+    "discount": 0,
+    "tag": [
+      "poleta"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004f19",
+    "title": "Presto Pronta",
+    "slug": "presto-pronta",
+    "image": "/products/0164.jpg",
+    "salePrice": 2500,
+    "quantity": 95,
+    "type": "Mercaderia",
+    "description": "Polenta de cocción rápida, suave y rendidora, ideal para preparar platos caseros bien calentitos."
+  },
+  {
+    "price": 1650,
+    "discount": 0,
+    "tag": [
+      "azucar"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004f20",
+    "title": "Azucar La Campechana",
+    "slug": "azucar-la-campechana",
+    "image": "/products/0170.jpg",
+    "salePrice": 1650,
+    "quantity": 95,
+    "type": "Mercaderia",
+    "description": "Azúcar blanca refinada de primera calidad, ideal para endulzar infusiones, postres y recetas caseras."
+  },
+  {
+    "price": 3000,
+    "discount": 0,
+    "tag": [
+      "al aceite"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004f44",
+    "title": "Sardina",
+    "slug": "sardina",
+    "image": "/products/0168.jpg",
+    "salePrice": 3000,
+    "quantity": 95,
+    "type": "Mercaderia",
+    "description": "Sardinas en conserva listas para consumir, sabrosas, nutritivas y prácticas para resolver cualquier comida."
+  },
+  {
+    "price": 3500,
+    "discount": 0,
+    "tag": [
+      "al aceite"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004f22",
+    "title": "Atún Real",
+    "slug": "atun-real",
+    "image": "/products/0169.jpg",
+    "salePrice": 3500,
+    "quantity": 95,
+    "type": "Mercaderia",
+    "description": "Lomo de atún en lata, tierno, sabroso y súper práctico para ensaladas o tartas."
+  },
+  {
+    "price": 2500,
+    "discount": 15,
+    "tag": [
+      "gomitas"
+    ],
+    "flashSale": true,
+    "_id": "62f3633eb77a510016004f06",
+    "title": "Gomitas Frutales Surtidas 150g",
+    "slug": "gomitas-frutales-surtidas-150g",
+    "image": "/products/0177.jpg",
+    "salePrice": 2125,
+    "quantity": 75,
+    "type": "Golosinas",
+    "description": "Gomitas azucaradas con sabores frutales variados: frutilla, naranja, limón y manzana verde."
+  },
+  {
+    "price": 4000,
+    "discount": 0,
+    "tag": [
+      "dulce"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004f05",
+    "title": "Chocotorta Triple Dulce de Leche",
+    "slug": "chocotorta-triple-dulce-de-leche",
+    "image": "/products/0172.jpg",
+    "salePrice": 4000,
+    "quantity": 60,
+    "type": "Golosinas",
+    "description": "Alfajor De Dulce De Leche Y Mousse Chocotorta 71.5g."
+  },
+  {
+    "price": 6000,
+    "discount": 0,
+    "tag": [
+      "dulce"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004g99",
+    "title": "Mini Alfajor",
+    "slug": "mini-alfajor",
+    "image": "/products/0180.jpg",
+    "salePrice": 6000,
+    "quantity": 60,
+    "type": "Golosinas",
+    "description": "Mini Alfajores MILKA Mousse 19g X 6 Unidades."
+  },
+  {
+    "price": 2000,
+    "discount": 0,
+    "tag": [
+      "dulce"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004g98",
+    "title": "Alfajor Bon o Bon",
+    "slug": "alfajor-bon-o-bon",
+    "image": "/products/0171.jpg",
+    "salePrice": 2000,
+    "quantity": 60,
+    "type": "Golosinas",
+    "description": "Alfajor BON O BON 40g."
+  },
+  {
+    "price": 2000,
+    "discount": 0,
+    "tag": [
+      "dulce"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004g97",
+    "title": "Alfajor Tita",
+    "slug": "alfajor-tita",
+    "image": "/products/0173.jpg",
+    "salePrice": 2000,
+    "quantity": 60,
+    "type": "Golosinas",
+    "description": "Alfajor."
+  },
+  {
+    "price": 1100,
+    "discount": 0,
+    "tag": [
+      "dulce"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004g96",
+    "title": "Halls",
+    "slug": "halls",
+    "image": "/products/0174.jpg",
+    "salePrice": 1100,
+    "quantity": 60,
+    "type": "Golosinas",
+    "description": "Caramelos Duros Cherry Halls 25.2g."
+  },
+  {
+    "price": 1500,
+    "discount": 0,
+    "tag": [
+      "dulce"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004g95",
+    "title": "Beldent",
+    "slug": "beldent",
+    "image": "/products/0175.jpg",
+    "salePrice": 1500,
+    "quantity": 60,
+    "type": "Golosinas",
+    "description": "Chicles Beldent Menta 20g."
+  },
+  {
+    "price": 2000,
+    "discount": 0,
+    "tag": [
+      "dulce"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004g21",
+    "title": "Rocklets",
+    "slug": "rocklets",
+    "image": "/products/0176.jpg",
+    "salePrice": 2000,
+    "quantity": 60,
+    "type": "Golosinas",
+    "description": "Confites De Chocolate Rocklets 40g."
+  },
+  {
+    "price": 1800,
+    "discount": 0,
+    "tag": [
+      "dulce"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004g00",
+    "title": "Rhodesia",
+    "slug": "rhodesia",
+    "image": "/products/0181.jpg",
+    "salePrice": 1800,
+    "quantity": 60,
+    "type": "Golosinas",
+    "description": "Oblea Rhodesia Clásica 22gr."
+  },
+  {
+    "price": 1550,
+    "discount": 0,
+    "tag": [
+      "leche"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004f07",
+    "title": "Leche Entera Ilolay",
+    "slug": "leche-entera-ilolay",
+    "image": "/products/0190.jpg",
+    "salePrice": 1550,
+    "quantity": 50,
+    "type": "Lácteos",
+    "description": "Leche entera ultrapasteurizada fortificada con vitaminas A y D en envase Tetra Brik de 1 litro."
+  },
+  {
+    "price": 1200,
+    "discount": 0,
+    "tag": [
+      "leche"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004z01",
+    "title": "Leche Entera",
+    "slug": "leche-entera",
+    "image": "/products/0192.jpg",
+    "salePrice": 1200,
+    "quantity": 50,
+    "type": "Lácteos",
+    "description": "Leche entera ultrapasteurizada en envase Tetra Brik de 1 litro."
+  },
+  {
+    "price": 8000,
+    "discount": 0,
+    "tag": [
+      "leche"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004z09",
+    "title": "Leche Purisima",
+    "slug": "leche-purisima",
+    "image": "/products/0193.png",
+    "salePrice": 8000,
+    "quantity": 50,
+    "type": "Lácteos",
+    "description": "Leche en polvo entera instantánea, cremosa, nutritiva y muy rendidora para toda la familia. ("
+  },
+  {
+    "price": 7700,
+    "discount": 0,
+    "tag": [
+      "leche"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004z07",
+    "title": "Leche la Lechera",
+    "slug": "leche-la-lechera",
+    "image": "/products/0191.png",
+    "salePrice": 7700,
+    "quantity": 50,
+    "type": "Lácteos",
+    "description": "Leche en polvo entera instantánea, cremosa, nutritiva y muy rendidora para toda la familia. ("
+  },
+  {
+    "price": 2500,
+    "discount": 0,
+    "tag": [
+      "lacteo"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004z90",
+    "title": "Manteca",
+    "slug": "manteca",
+    "image": "/products/0194.jpg",
+    "salePrice": 2500,
+    "quantity": 70,
+    "type": "Lácteos",
+    "description": "Manteca de primera calidad, suave y cremosa, ideal para tostadas, repostería y cocina diaria."
+  },
+  {
+    "price": 3500,
+    "discount": 0,
+    "tag": [
+      "lacteo"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004z91",
+    "title": "Queso Crema",
+    "slug": "queso-crema",
+    "image": "/products/0195.jpg",
+    "salePrice": 3500,
+    "quantity": 70,
+    "type": "Lácteos",
+    "description": "Queso crema suave y untable, perfecto para desayunos, picadas o preparar salsas y postres."
+  },
+  {
+    "price": 1850,
+    "discount": 0,
+    "tag": [
+      "yogur"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004z89",
+    "title": "Yogur Bebible Frutilla",
+    "slug": "yogur-bebible-frutilla",
+    "image": "/products/0196.jpg",
+    "salePrice": 1850,
+    "quantity": 45,
+    "type": "Lácteos",
+    "description": "Cremoso yogur sabor frutilla, fresco, dulce y nutritivo para disfrutar en desayunos o meriendas."
+  },
+  {
+    "price": 1850,
+    "discount": 0,
+    "tag": [
+      "yogur"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004z88",
+    "title": "Yogur Bebible Durazno",
+    "slug": "yogur-bebible-durazno",
+    "image": "/products/0197.jpg",
+    "salePrice": 1850,
+    "quantity": 45,
+    "type": "Lácteos",
+    "description": "Cremoso yogur sabor durazno, fresco, dulce y nutritivo para disfrutar en desayunos o meriendas."
+  },
+  {
+    "price": 1500,
+    "discount": 0,
+    "tag": [
+      "yogur"
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004z87",
+    "title": "Yogur Milkaut",
+    "slug": "yogur-milkaut",
+    "image": "/products/0198.jpg",
+    "salePrice": 1500,
+    "quantity": 50,
+    "type": "Lácteos",
+    "description": "Práctico yogur individual en vasito, cremoso, fresco y listo para llevar a donde quieras."
+  },
+  {
+    "price": 1700,
+    "discount": 0,
+    "tag": [
+      "productos en grl."
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004y99",
+    "title": "Lavandina",
+    "slug": "lavandina",
+    "image": "/products/200.jpg",
+    "salePrice": 1700,
+    "quantity": 65,
+    "type": "Limpieza",
+    "description": "Agua lavandina concentrada para desinfección profunda de superficies, pisos y baños."
+  },
+  {
+    "price": 2200,
+    "discount": 0,
+    "tag": [
+      "productos en grl."
+    ],
+    "flashSale": true,
+    "_id": "62f3633eb77a510016004y98",
+    "title": "Jabón Líquido para Ropa",
+    "slug": "jabon-liquido-para-ropa",
+    "image": "/products/201.jpg",
+    "salePrice": 2200,
+    "quantity": 55,
+    "type": "Limpieza",
+    "description": "Jabón líquido Skip de máxima eficacia, remueve manchas difíciles y cuida todas tus prendas."
+  },
+  {
+    "price": 1700,
+    "discount": 0,
+    "tag": [
+      "productos en grl."
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004y97",
+    "title": "Vivere",
+    "slug": "vivere",
+    "image": "/products/203.jpg",
+    "salePrice": 1700,
+    "quantity": 65,
+    "type": "Limpieza",
+    "description": "Suavizante Vivere que deja tu ropa increíblemente suave, esponjosa y con un aroma duradero."
+  },
+  {
+    "price": 1200,
+    "discount": 0,
+    "tag": [
+      "productos en grl."
+    ],
+    "flashSale": true,
+    "_id": "62f3633eb77a510016004y96",
+    "title": "Jabón Blanco",
+    "slug": "jabon-blanco",
+    "image": "/products/204.jpg",
+    "salePrice": 1200,
+    "quantity": 55,
+    "type": "Limpieza",
+    "description": "Jabón blanco en pan tradicional, muy rendidor e ideal para lavar ropa a mano."
+  },
+  {
+    "price": 1000,
+    "discount": 0,
+    "tag": [
+      "productos en grl."
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004y95",
+    "title": "Rejilla",
+    "slug": "rejilla",
+    "image": "/products/200.jpg",
+    "salePrice": 1000,
+    "quantity": 70,
+    "type": "Limpieza",
+    "description": "Rejilla de algodón súper absorbente y resistente, ideal para limpiar mesas, mesadas y superficies."
+  },
+  {
+    "price": 600,
+    "discount": 0,
+    "tag": [
+      "productos en grl."
+    ],
+    "flashSale": true,
+    "_id": "62f3633eb77a510016004y94",
+    "title": "Esponja",
+    "slug": "esponja",
+    "image": "/products/201.jpg",
+    "salePrice": 600,
+    "quantity": 50,
+    "type": "Limpieza",
+    "description": "Esponja amarilla para tus platos."
+  },
+  {
+    "price": 3000,
+    "discount": 0,
+    "tag": [
+      "productos en grl."
+    ],
+    "flashSale": false,
+    "_id": "62f3633eb77a510016004y93",
+    "title": "Papel Higiénico",
+    "slug": "papel-higienico",
+    "image": "/products/207.jpg",
+    "salePrice": 3000,
+    "quantity": 70,
+    "type": "Limpieza",
+    "description": "Papel higiénico Felpita extra suave y absorbente, brinda máximo cuidado y rendimiento diario."
+  },
+  {
+    "price": 1200,
+    "discount": 0,
+    "tag": [
+      "productos en grl."
+    ],
+    "flashSale": true,
+    "_id": "62f3633eb77a510016004y92",
+    "title": "Trapo de piso",
+    "slug": "trapo-de-piso",
+    "image": "/products/208.jpg",
+    "salePrice": 1200,
+    "quantity": 45,
+    "type": "Limpieza",
+    "description": "Trapo de piso grueso y absorbente, ideal para dejar tus ambientes limpios y secos."
+  }
+]

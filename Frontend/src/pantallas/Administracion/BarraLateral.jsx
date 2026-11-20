@@ -6,12 +6,10 @@ import {
   Calendar as Calendario,
   ChevronDown,
   FileText,
-  Heart,
   Lock,
   LogOut,
   Maximize,
   Menu,
-  MessageCircle,
   Minimize,
   Moon,
   Search,
@@ -25,7 +23,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { usarAutenticacion } from '../../Contextos/ContextoAutenticacion';
 import { usarAjustesTema } from '../../Contextos/ContextoTema';
-import { apiConversaciones, apiPedidos } from '../../servicios/api';
+import { apiPedidos } from '../../servicios/api';
 
 const ORIGEN_API = (
   import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
@@ -43,7 +41,6 @@ function BarraLateral({
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [chatNotifications, setChatNotifications] = useState([]);
   const [systemNotifications, setSystemNotifications] = useState([]);
   const topbarRef = useRef(null);
   const esOscuro = tema.mode === 'dark';
@@ -73,34 +70,8 @@ function BarraLateral({
       if (!usuario) return;
 
       try {
-        const [conversaciones, pedidos] = await Promise.all([
-          apiConversaciones.listar(),
-          apiPedidos.listar(),
-        ]);
-
+        const pedidos = await apiPedidos.listar();
         if (!mounted) return;
-
-        setChatNotifications(
-          conversaciones
-            .filter(
-              (conversacion) =>
-                Number(conversacion.unread || 0) > 0 ||
-                conversacion.lastMessage,
-            )
-            .slice(0, 5)
-            .map((conversacion) => ({
-              id: conversacion.id,
-              name: conversacion.name,
-              title: conversacion.name,
-              message: conversacion.lastMessage || 'Nuevo chat disponible',
-              time: tiempoTranscurrido(
-                conversacion.lastMessageAt || conversacion.updatedAt,
-              ),
-              avatar: conversacion.avatar || '/images/categories/1.png',
-              unread: Number(conversacion.unread || 0),
-              path: '/chat',
-            })),
-        );
 
         setSystemNotifications(
           pedidos
@@ -122,7 +93,6 @@ function BarraLateral({
         );
       } catch {
         if (!mounted) return;
-        setChatNotifications([]);
         setSystemNotifications([]);
       }
     };
@@ -135,15 +105,6 @@ function BarraLateral({
       window.clearInterval(temporizador);
     };
   }, [usuario]);
-
-  const chatUnread = useMemo(
-    () =>
-      chatNotifications.reduce(
-        (suma, elemento) => suma + Number(elemento.unread || 0),
-        0,
-      ),
-    [chatNotifications],
-  );
 
   const pendingNotifications = useMemo(
     () =>
@@ -179,7 +140,6 @@ function BarraLateral({
           { name: 'Productos', link: '/admin/products', icon: Store },
           { name: 'Clientes CRM', link: '/customers', icon: Users },
           { name: 'Lista de pedidos', link: '/orders', icon: FileText },
-          { name: 'Chat', link: '/chat', icon: MessageCircle },
         ],
       },
       {
@@ -197,7 +157,6 @@ function BarraLateral({
         items: [
           { name: 'Mi perfil', link: '/profile', icon: User },
           { name: 'Lista de pedidos', link: '/orders', icon: FileText },
-          { name: 'Chat', link: '/chat', icon: MessageCircle },
           { name: 'Cambiar contrasena', link: '/password', icon: Lock },
         ],
       },
@@ -427,50 +386,6 @@ function BarraLateral({
                 onClick={toggleFullscreen}>
                 <IconoPanel icon={isFullscreen ? Minimize : Maximize} />
               </IconButton>
-              <div className="relative hidden sm:block">
-                <IconButton
-                  label="Notificaciones de chat"
-                  onClick={() => toggleDropdown('chat')}
-                  active={activeDropdown === 'chat'}
-                  badge={chatUnread > 0}>
-                  <IconoPanel icon={Heart} />
-                </IconButton>
-                {activeDropdown === 'chat' && (
-                  <MenuBarraSuperior
-                    className="right-0 w-[250px]"
-                    isDark={esOscuro}>
-                    <TituloMenu
-                      title={`Chat${chatUnread ? ` (${chatUnread})` : ''}`}
-                    />
-                    <div className="space-y-1.5">
-                      {chatNotifications.length ? (
-                        chatNotifications.map((elemento) => (
-                          <FilaNotificacion
-                            key={elemento.id}
-                            item={elemento}
-                            isDark={esOscuro}
-                            onClick={() => {
-                              setActiveDropdown(null);
-                              navegar(elemento.path);
-                            }}
-                          />
-                        ))
-                      ) : (
-                        <MenuVacio text="No tienes mensajes nuevos." />
-                      )}
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setActiveDropdown(null);
-                        navegar('/chat');
-                      }}
-                      className="mt-2 h-7 w-full rounded-[4px] border border-[var(--dash-accent)] bg-blue-50 text-[11px] font-semibold text-[var(--dash-accent)] dark:bg-slate-800">
-                      Ver chat
-                    </button>
-                  </MenuBarraSuperior>
-                )}
-              </div>
               <div className="relative hidden sm:block">
                 <IconButton
                   label="Notificaciones"

@@ -2,6 +2,7 @@ from flask import Flask, jsonify
 
 from database.db import init_db
 from routes.autenticacion import autenticacion
+from routes.productos import catalogo
 from models.DetalleVenta import DetalleVenta
 from models.Persona import Persona
 from models.Producto import Producto
@@ -10,6 +11,7 @@ from models.Venta import Venta
 
 app = Flask(__name__)
 app.register_blueprint(autenticacion)
+app.register_blueprint(catalogo)
 
 
 @app.route("/home")
@@ -50,7 +52,7 @@ def home():
     )
     p2.agregar_stock_por_sucursal(id_sucursal=1, cantidad=30)
 
-    # 3. Crear DetalleVenta y Venta
+    # 3Crear DetalleVenta y Venta
     detalle1 = DetalleVenta(producto=p1, cantidad=2, precio_unitario=p1.precio)
     detalle2 = DetalleVenta(producto=p2, cantidad=1, precio_unitario=p2.precio)
 

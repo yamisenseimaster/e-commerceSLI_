@@ -166,44 +166,6 @@ const apiPagos = {
 };
 export { apiPagos };
 
-const apiConversaciones = {
-  estado: () => solicitarApi('/chat/status'),
-  listar: (busqueda = '') => {
-    const consulta = busqueda ? `?search=${encodeURIComponent(busqueda)}` : '';
-    return solicitarApi(`/chat/conversations${consulta}`);
-  },
-  crearConversacion: (cuerpo) =>
-    solicitarApi('/chat/conversations', {
-      method: 'POST',
-      body: JSON.stringify(cuerpo),
-    }),
-  eliminarConversacion: (conversationId) =>
-    solicitarApi(`/chat/conversations/${conversationId}`, {
-      method: 'DELETE',
-    }),
-  mensajes: (conversationId) =>
-    solicitarApi(`/chat/conversations/${conversationId}/messages`),
-  enviarMensaje: (conversationId, cuerpo) =>
-    solicitarApi(`/chat/conversations/${conversationId}/messages`, {
-      method: 'POST',
-      body: JSON.stringify(cuerpo),
-    }),
-  enviarAdjunto: (conversationId, cuerpo) =>
-    solicitarApi(`/chat/conversations/${conversationId}/media`, {
-      method: 'POST',
-      body: JSON.stringify(cuerpo),
-    }),
-  simularMensajeEntrante: (conversationId, cuerpo) =>
-    solicitarApi(`/chat/conversations/${conversationId}/incoming`, {
-      method: 'POST',
-      body: JSON.stringify(cuerpo),
-    }),
-  marcarLeidos: (conversationId) =>
-    solicitarApi(`/chat/conversations/${conversationId}/read`, {
-      method: 'PATCH',
-    }),
-};
-export { apiConversaciones };
 
 const apiAdministracion = {
   estadisticas: () => solicitarApi('/admin/stats'),
