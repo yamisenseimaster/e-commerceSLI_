@@ -40,10 +40,13 @@ function ProveedorCarrito({ children: hijos }) {
         return null;
       }
 
-      const datos = await apiCarrito.agregar({
-        productId: idProducto,
-        quantity: cantidad,
-      });
+      let datos;
+      try {
+        datos = await apiCarrito.agregar({ productId: idProducto, quantity: cantidad });
+      } catch (error) {
+        toast.error(error.message);
+        return null;
+      }
       establecerCarrito(datos);
       toast.success('Producto agregado al carrito', {
         toastId: `cart-add-${idProducto}`,
@@ -54,17 +57,24 @@ function ProveedorCarrito({ children: hijos }) {
   );
 
   const actualizarCantidad = useCallback(async (idProducto, cantidad) => {
-    const datos = await apiCarrito.actualizar(idProducto, cantidad);
-    establecerCarrito(datos);
-    return datos;
+    try {
+      const datos = await apiCarrito.actualizar(idProducto, cantidad);
+      establecerCarrito(datos);
+      return datos;
+    } catch (error) {
+      toast.error(error.message);
+    }
   }, []);
 
   const quitarDelCarrito = useCallback(
     async (idProducto) => {
-      await apiCarrito.eliminar(idProducto);
-      await recargarCarrito();
+      try {
+        establecerCarrito(await apiCarrito.eliminar(idProducto));
+      } catch (error) {
+        toast.error(error.message);
+      }
     },
-    [recargarCarrito],
+    [],
   );
 
   const cantidadArticulos = carrito.items.reduce(

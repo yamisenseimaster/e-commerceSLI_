@@ -4,7 +4,7 @@ from collections import defaultdict
 from contextlib import closing
 from datetime import datetime
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, g, jsonify, request
 from database.db import get_db_connection
 
 panel = Blueprint("panel", __name__, url_prefix="/api")
@@ -19,7 +19,11 @@ def pedido_publico(fila):
 @panel.get("/orders")
 def pedidos():
     with closing(get_db_connection()) as conexion:
-        return jsonify(data=[pedido_publico(fila) for fila in conexion.execute("SELECT * FROM pedidos ORDER BY creado DESC")])
+        if g.usuario["rol"] == "administrador":
+            filas = conexion.execute("SELECT * FROM pedidos ORDER BY creado DESC")
+        else:
+            filas = conexion.execute("SELECT * FROM pedidos WHERE cliente=? ORDER BY creado DESC", (g.usuario["id_persona"],))
+        return jsonify(data=[pedido_publico(fila) for fila in filas])
 
 
 @panel.route("/admin/orders/<clave>", methods=["PUT", "DELETE"])
@@ -61,6 +65,7 @@ def clientes():
 @panel.delete("/admin/customers/<int:clave>")
 def eliminar_cliente(clave):
     with closing(get_db_connection()) as conexion, conexion:
+        conexion.execute("DELETE FROM sesiones_panel WHERE id_persona IN (SELECT id_persona FROM personas WHERE id_persona=? AND rol='cliente')", (clave,))
         if not conexion.execute("DELETE FROM personas WHERE rol='cliente' AND id_persona=?", (clave,)).rowcount:
             return jsonify(error="No se encontró el cliente."), 404
     return "", 204

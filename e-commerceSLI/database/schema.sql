@@ -72,3 +72,10 @@ CREATE TABLE IF NOT EXISTS eventos_calendario (
     id TEXT PRIMARY KEY NOT NULL,
     datos TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS carrito (
+    persona INTEGER NOT NULL REFERENCES personas(id_persona) ON DELETE CASCADE,
+    producto INTEGER NOT NULL REFERENCES productos(id_producto) ON DELETE CASCADE,
+    cantidad INTEGER NOT NULL CHECK(cantidad > 0),
+    PRIMARY KEY (persona, producto)
+);

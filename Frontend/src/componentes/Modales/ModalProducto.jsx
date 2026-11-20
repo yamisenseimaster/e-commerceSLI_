@@ -30,7 +30,7 @@ const ModalProducto = ({
   const favorite = isFavorite(idProducto);
 
   const handleAddToCart = async () => {
-    await agregarAlCarrito(idProducto, elemento);
+    if (!(await agregarAlCarrito(idProducto, elemento))) return;
     establecerModalAbierto(false);
     establecerElemento(1);
   };

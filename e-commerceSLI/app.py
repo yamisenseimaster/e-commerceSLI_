@@ -4,6 +4,7 @@ from database.db import init_db
 from routes.autenticacion import autenticacion
 from routes.productos import catalogo
 from routes.panel import panel
+from routes.carrito import carrito
 from werkzeug.exceptions import BadRequest
 from models.DetalleVenta import DetalleVenta
 from models.Persona import Persona
@@ -16,6 +17,7 @@ init_db()
 app.register_blueprint(autenticacion)
 app.register_blueprint(catalogo)
 app.register_blueprint(panel)
+app.register_blueprint(carrito)
 
 
 @app.errorhandler(BadRequest)
