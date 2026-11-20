@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   FiBriefcase,
   FiCalendar,
@@ -9,6 +9,8 @@ import {
   FiTrash2,
   FiX,
 } from 'react-icons/fi';
+import { toast } from 'react-toastify';
+import { solicitarApi } from '../../servicios/api';
 import BarraLateral from './BarraLateral';
 
 const claveAlmacenamiento = 'dashboardCalendarEventsV2';
@@ -63,7 +65,25 @@ const emptyEvent = {
 };
 
 function Calendario() {
-  const [events, setEvents] = useState(() => cargarEventos());
+  const [events, setEvents] = useState([]);
+  const ocupado = useRef(false);
+  const [listo, establecerListo] = useState(false);
+  useEffect(() => {
+    let activo = true;
+    async function cargar() {
+      for (const anterior of cargarEventos()) {
+        await solicitarApi('/admin/eventos/' + encodeURIComponent(anterior.id), { method: 'POST', data: anterior });
+      }
+      const guardados = await solicitarApi('/admin/eventos');
+      if (activo) {
+        localStorage.removeItem(claveAlmacenamiento);
+        setEvents(guardados);
+        establecerListo(true);
+      }
+    }
+    cargar().catch(error => toast.error(error.message));
+    return () => { activo = false };
+  }, []);
   const [view, setView] = useState('month');
   const [currentDate, setCurrentDate] = useState(new Date());
   const [modoModal, establecerModoModal] = useState(null);
@@ -146,34 +166,37 @@ function Calendario() {
     });
   };
 
-  const manejarEnvio = (evento) => {
+  const manejarEnvio = async (evento) => {
     evento.preventDefault();
-    const payload = {
-      ...valores,
-      id: editingEvent?.id || `${Date.now()}`,
-      title: valores.title.trim(),
-    };
-
-    if (!payload.title) return;
-
-    const nextEvents = editingEvent
-      ? events.map((elemento) =>
-          elemento.id === editingEvent.id ? payload : elemento,
-        )
-      : [...events, payload];
-
-    guardarEventos(nextEvents);
-    setEvents(nextEvents);
-    setCurrentDate(new Date(payload.dateTime));
-    cerrarModal();
+    if (!valores.title.trim() || ocupado.current || !listo) return;
+    ocupado.current = true;
+    try {
+      const clave = editingEvent?.id || crypto.randomUUID();
+      const guardado = await solicitarApi('/admin/eventos/' + encodeURIComponent(clave), {
+        method: editingEvent ? 'PUT' : 'POST', data: valores,
+      });
+      setEvents(actual => [...actual.filter(item => item.id !== clave), guardado]);
+      setCurrentDate(new Date(guardado.dateTime));
+      cerrarModal();
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      ocupado.current = false;
+    }
   };
 
-  const manejarEliminacion = () => {
-    if (!editingEvent) return;
-    const nextEvents = events.filter((evento) => evento.id !== editingEvent.id);
-    guardarEventos(nextEvents);
-    setEvents(nextEvents);
-    cerrarModal();
+  const manejarEliminacion = async () => {
+    if (!editingEvent || ocupado.current) return;
+    ocupado.current = true;
+    try {
+      await solicitarApi('/admin/eventos/' + encodeURIComponent(editingEvent.id), { method: 'DELETE' });
+      setEvents(actual => actual.filter(item => item.id !== editingEvent.id));
+      cerrarModal();
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      ocupado.current = false;
+    }
   };
 
   return (
@@ -759,10 +782,6 @@ function cargarEventos() {
   } catch {
     return defaultEvents;
   }
-}
-
-function guardarEventos(events) {
-  localStorage.setItem(claveAlmacenamiento, JSON.stringify(events));
 }
 
 function obtenerDiasDelMes(fecha) {

@@ -55,3 +55,20 @@ CREATE TABLE IF NOT EXISTS configuracion_catalogo (
 CREATE TABLE IF NOT EXISTS imagenes_catalogo (
     clave TEXT PRIMARY KEY, tipo TEXT NOT NULL, contenido BLOB NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS pedidos (
+    id TEXT PRIMARY KEY NOT NULL,
+    cliente INTEGER REFERENCES personas(id_persona) ON DELETE SET NULL,
+    creado TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+    estado TEXT NOT NULL DEFAULT 'Pending',
+    estado_pago TEXT NOT NULL DEFAULT 'Pending',
+    metodo TEXT NOT NULL DEFAULT 'Cash',
+    total REAL NOT NULL CHECK(total >= 0),
+    direccion TEXT NOT NULL DEFAULT '{}',
+    articulos TEXT NOT NULL DEFAULT '[]'
+);
+
+CREATE TABLE IF NOT EXISTS eventos_calendario (
+    id TEXT PRIMARY KEY NOT NULL,
+    datos TEXT NOT NULL
+);

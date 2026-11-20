@@ -268,8 +268,7 @@ function ModalDetalleCliente({
               <div className="px-5 py-5">
                 <div className="rounded-[6px] bg-red-50 p-4 text-sm font-bold text-red-700">
                   Se eliminara a{' '}
-                  <span className="font-black">{cliente.name}</span>, sus
-                  pedidos y su historial de compras.
+                  <span className="font-black">{cliente.name}</span>. Los pedidos guardados conservarán su historial.
                 </div>
               </div>
 

@@ -3,6 +3,8 @@ from flask import Flask, jsonify
 from database.db import init_db
 from routes.autenticacion import autenticacion
 from routes.productos import catalogo
+from routes.panel import panel
+from werkzeug.exceptions import BadRequest
 from models.DetalleVenta import DetalleVenta
 from models.Persona import Persona
 from models.Producto import Producto
@@ -10,8 +12,15 @@ from models.Sucursal import Sucursal
 from models.Venta import Venta
 
 app = Flask(__name__)
+init_db()
 app.register_blueprint(autenticacion)
 app.register_blueprint(catalogo)
+app.register_blueprint(panel)
+
+
+@app.errorhandler(BadRequest)
+def solicitud_invalida(error):
+    return jsonify(error=error.description), 400
 
 
 @app.route("/home")
@@ -70,6 +79,5 @@ def home():
 
 
 if __name__ == "__main__":
-    init_db()
     print("Base de datos inicializada correctamente.")
     app.run(debug=True)

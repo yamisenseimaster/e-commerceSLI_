@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { toast } from 'react-toastify';
 import Chart from 'react-apexcharts';
 import { FiFilter, FiMoreVertical, FiShoppingBag } from 'react-icons/fi';
 import { MdPaid } from 'react-icons/md';
@@ -40,13 +41,13 @@ function Administracion() {
         establecerEstadisticas(nextStats);
         establecerPedidos(nextOrders);
       })
-      .catch(() => {});
+      .catch(error => toast.error(error.message));
   }, []);
 
   const textColor = esOscuro ? '#9ca3af' : '#667085';
   const gridColor = esOscuro ? '#2b2b2b' : '#e8edf5';
   const chartTheme = esOscuro ? 'dark' : 'light';
-  const productosInventario = productos.length ? productos : productosDeEjemplo;
+  const productosInventario = productos;
   const resumenInventario = useMemo(() => {
     const totalUnidades = productosInventario.reduce(
       (suma, producto) => suma + obtenerCantidad(producto),
@@ -67,10 +68,7 @@ function Administracion() {
     };
   }, [productosInventario]);
   const ingresos = Number(estadisticas.revenue ?? estadisticas.totalSales ?? 0);
-  const gastos = Number(estadisticas.expenses ?? 0);
-  const ganancia = Number(
-    estadisticas.profit ?? Math.max(ingresos - gastos, 0),
-  );
+  const entregados = Number(estadisticas.completeOrders || 0);
   const totalClientes = Number(
     estadisticas.totalCustomers ?? estadisticas.customers ?? 0,
   );
@@ -101,11 +99,11 @@ function Administracion() {
       data: [0, totalClientes, totalClientes, totalClientes],
     },
     {
-      title: 'Ventas sin envio',
-      value: formatearDinero(ganancia),
-      delta: 'neto',
+      title: 'Pedidos entregados',
+      value: entregados,
+      delta: 'entregados',
       color: '#1fc2fb',
-      data: [0, ganancia, Math.max(ganancia - gastos, 0), ganancia],
+      data: salesChart.entregados,
     },
     {
       title: 'Productos totales',
@@ -253,16 +251,16 @@ function Administracion() {
           <TarjetaInformacion
             title="Ingresos"
             value={formatearDinero(ingresos)}
-            detail="Total registrado en pedidos"
+            detail="Cobros de pedidos vigentes"
             badge="API"
             icon={<MdPaid />}
             color="#22cdc6"
           />
 
           <TarjetaInformacion
-            title="Envio cobrado"
-            value={formatearDinero(gastos)}
-            detail="Costos de envio registrados"
+            title="Pedidos pendientes"
+            value={pedidosPendientes}
+            detail="Pedidos en espera"
             badge={`${pedidosPendientes} pend.`}
             icon={<FiShoppingBag />}
             color="#f34b7e"
@@ -583,6 +581,7 @@ function crearVentasMensuales(pedidos) {
         year: 'numeric',
       }),
       total: 0,
+      entregados: 0,
     });
   }
 
@@ -590,12 +589,14 @@ function crearVentasMensuales(pedidos) {
     const fecha = new Date(pedido.createdAt);
     const clave = `${fecha.getFullYear()}-${fecha.getMonth()}`;
     const mes = months.find((elemento) => elemento.key === clave);
-    if (mes) mes.total += Number(pedido.total || 0);
+    if (mes && pedido.paymentStatus === 'Paid' && pedido.status !== 'Canceled') mes.total += Number(pedido.total || 0);
+    if (mes && pedido.status === 'Complete') mes.entregados += 1;
   });
 
   return {
     labels: months.map((elemento) => elemento.label),
     data: months.map((elemento) => elemento.total),
+    entregados: months.map((elemento) => elemento.entregados),
   };
 }
 
@@ -604,43 +605,5 @@ function formatearDineroAbreviado(valor) {
   if (amount >= 1000) return `$${Math.round(amount / 1000)}k`;
   return `$${amount}`;
 }
-
-const productosDeEjemplo = [
-  {
-    id: '00101',
-    title: 'Apple AirPods Pro',
-    salePrice: 249,
-    quantity: 40,
-    image: '/images/products/11.png',
-  },
-  {
-    id: '00102',
-    title: 'Samsung Galaxy Watch 6',
-    salePrice: 349,
-    quantity: 15,
-    image: '/images/products/12.png',
-  },
-  {
-    id: '00103',
-    title: 'Sony WH-1000XM5 Headphones',
-    salePrice: 399,
-    quantity: 0,
-    image: '/images/products/13.png',
-  },
-  {
-    id: '00104',
-    title: 'Dell XPS 13 Laptop',
-    salePrice: 1199,
-    quantity: 25,
-    image: '/images/products/14.png',
-  },
-  {
-    id: '00105',
-    title: 'GoPro Hero 12 Black',
-    salePrice: 429,
-    quantity: 60,
-    image: '/images/products/15.png',
-  },
-];
 
 export default Administracion;

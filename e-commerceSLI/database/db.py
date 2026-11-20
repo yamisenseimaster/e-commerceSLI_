@@ -3,6 +3,8 @@ import sqlite3
 import json
 from pathlib import Path
 
+from werkzeug.security import check_password_hash, generate_password_hash
+
 # Ruta absoluta al archivo de la base de datos dentro de la carpeta 'database'
 DB_PATH = os.path.join(os.path.dirname(__file__), "mercadito.db")
 SCHEMA_PATH = os.path.join(os.path.dirname(__file__), "schema.sql")
@@ -26,10 +28,35 @@ def init_db():
         try:
             with conn:
                 conn.execute("BEGIN IMMEDIATE")
+                columnas = {fila["name"] for fila in conn.execute("PRAGMA table_info(personas)")}
+                if "telefono" not in columnas:
+                    conn.execute("ALTER TABLE personas ADD COLUMN telefono TEXT DEFAULT ''")
                 if not conn.execute("SELECT 1 FROM configuracion_catalogo").fetchone():
                     preparar_catalogo(conn)
+                preparar_administrador_demo(conn)
         finally:
             conn.close()
+
+
+def preparar_administrador_demo(conexion):
+    correo = "admin@mercadito.local"
+    clave = "mercadito21"
+    cuenta = conexion.execute(
+        "SELECT id_persona, rol, password_hash FROM personas WHERE email = ? COLLATE NOCASE",
+        (correo,),
+    ).fetchone()
+    if cuenta is None:
+        conexion.execute(
+            """INSERT INTO personas (nombre, apellido, dni, email, rol, username, password_hash)
+               VALUES ('Administrador', 'Local', 'LOCAL-ADMIN', ?, 'administrador', 'admin_local', ?)""",
+            (correo, generate_password_hash(clave)),
+        )
+    elif cuenta["rol"] == "administrador" and not check_password_hash(cuenta["password_hash"], clave):
+        conexion.execute(
+            "UPDATE personas SET password_hash = ? WHERE id_persona = ?",
+            (generate_password_hash(clave), cuenta["id_persona"]),
+        )
+        conexion.execute("DELETE FROM sesiones_panel WHERE id_persona = ?", (cuenta["id_persona"],))
 
 
 def preparar_catalogo(conexion):

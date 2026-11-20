@@ -83,10 +83,16 @@ def administrar(clave=None):
 
 @catalogo.post("/admin/uploads/products")
 def subir_imagen():
+    url = guardar_imagen(2)
+    return jsonify(data={"url": url})
+
+
+def guardar_imagen(limite_mb):
+    from werkzeug.exceptions import BadRequest
     datos = request.get_json(silent=True)
     valor = datos.get("dataUrl") if isinstance(datos, dict) else None
-    if not isinstance(valor, str) or len(valor) > 2800000:
-        return jsonify(error="Elegí una imagen de hasta 2 MB."), 400
+    if not isinstance(valor, str) or len(valor) > limite_mb * 1400000:
+        raise BadRequest(f"Elegí una imagen de hasta {limite_mb} MB.")
     cabecera, _, codificado = valor.partition(",")
     firmas = {"image/png": (b"\x89PNG\r\n\x1a\n",), "image/jpeg": (b"\xff\xd8\xff",),
               "image/gif": (b"GIF87a", b"GIF89a"), "image/webp": (b"RIFF",)}
@@ -95,13 +101,13 @@ def subir_imagen():
         contenido = base64.b64decode(codificado, validate=True)
     except ValueError:
         contenido = b""
-    if (tipo not in firmas or not contenido.startswith(firmas[tipo]) or len(contenido) > 2 * 1024**2
+    if (tipo not in firmas or not contenido.startswith(firmas[tipo]) or len(contenido) > limite_mb * 1024**2
             or (tipo == "image/webp" and contenido[8:12] != b"WEBP")):
-        return jsonify(error="Formato o tamaño de imagen inválido."), 400
+        raise BadRequest("Formato o tamaño de imagen inválido.")
     clave = hashlib.sha256(contenido).hexdigest()
     with closing(get_db_connection()) as conexion, conexion:
         conexion.execute("INSERT OR IGNORE INTO imagenes_catalogo VALUES (?, ?, ?)", (clave, tipo, contenido))
-    return jsonify(data={"url": f"/api/imagenes/{clave}"})
+    return f"/api/imagenes/{clave}"
 
 
 @catalogo.get("/imagenes/<clave>")
