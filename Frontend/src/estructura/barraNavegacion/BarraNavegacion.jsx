@@ -10,7 +10,7 @@ import {
   FiSun,
   FiUser,
 } from 'react-icons/fi';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import InicioSesion from '../../componentes/Modales/InicioSesion';
 import { ContextoBarraLateral } from '../../Contextos/ContextoVentanas';
 import Carrito from '../../componentes/Paneles/Carrito';
@@ -27,6 +27,7 @@ import {
 } from '../../Contextos/ContextoFavoritos';
 
 const BarraNavegacion = ({ colorPortada }) => {
+  const enTienda = useLocation().pathname === '/shop';
   const barra = useRef(null);
   const [sobrePortada, establecerSobrePortada] = useState(true);
   const tienePortada = Boolean(colorPortada);
@@ -163,7 +164,7 @@ const BarraNavegacion = ({ colorPortada }) => {
             aria-label="Abrir menu">
             <FiMenu />
           </button>
-          <div className="shrink-0">
+          <div className={`shrink-0 ${enTienda ? "max-sm:absolute max-sm:left-1/2 max-sm:-translate-x-1/2" : ""}`}>
             <Link
               to="/"
               className="font-display inline-flex items-center text-[24px] font-black tracking-tight text-black dark:text-white">
@@ -286,7 +287,7 @@ const BarraNavegacion = ({ colorPortada }) => {
           </div>
         </div>
         <div className="px-3 pb-2 sm:px-4 md:hidden">
-          <BuscadorProductos className="h-11 w-full" />
+          <BuscadorProductos className="h-11 w-full" showButton={!enTienda} />
         </div>
       </div>
     </>

@@ -1,7 +1,8 @@
+import { precioVigente } from '../../utilidades/precioVigente';
 import React, { useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import Chart from 'react-apexcharts';
-import { FiFilter, FiMoreVertical, FiShoppingBag } from 'react-icons/fi';
+import { FiMoreVertical, FiShoppingBag } from 'react-icons/fi';
 import { MdPaid } from 'react-icons/md';
 import BarraLateral from './BarraLateral';
 import { apiAdministracion, apiPedidos } from '../../servicios/api';
@@ -228,14 +229,7 @@ function Administracion() {
             <h3 className="text-[20px] font-black text-[#162033] dark:text-white">
               Analiticas
             </h3>
-            <div className="flex gap-2">
-              <button className="inline-flex h-9 items-center gap-2 rounded-[9px] border border-[#b8c1ce] px-4 text-[14px] font-semibold text-[#596579] dark:border-[#303030] dark:bg-[#202020] dark:text-slate-300">
-                <FiFilter className="text-[14px]" /> Filtro
-              </button>
-              <button className="h-9 rounded-[9px] border border-[#d9e0ea] px-4 text-[14px] font-semibold text-[#596579] dark:border-[#303030] dark:bg-[#202020] dark:text-slate-300">
-                Este mes
-              </button>
-            </div>
+            <span className="text-sm text-slate-500 dark:text-slate-300">Últimos 6 meses</span>
           </div>
           <Chart
             type="area"
@@ -358,7 +352,7 @@ function Administracion() {
                       {obtenerIdProducto(producto, indice)}
                     </td>
                     <td className="px-4 py-3 text-[#445267] dark:text-[#aab2c0]">
-                      {formatearDinero(producto.salePrice || producto.price)}
+                      {formatearDinero(precioVigente(producto))}
                     </td>
                     <td className="px-4 py-3">
                       <InsigniaExistencias

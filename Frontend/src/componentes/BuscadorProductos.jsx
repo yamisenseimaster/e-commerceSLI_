@@ -1,3 +1,4 @@
+import { precioVigente } from '../utilidades/precioVigente';
 import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { FiArrowRight, FiSearch, FiTag, FiX } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
@@ -262,11 +263,7 @@ function BuscadorProductos({
                             </span>
                             <span className="mt-auto text-sm font-black text-[#086650] dark:text-[#9ff2df]">
                               {formatoPrecio.format(
-                                Number(
-                                  producto.flashSale
-                                    ? (producto.salePrice ?? producto.price)
-                                    : producto.price,
-                                ) || 0,
+                                precioVigente(producto),
                               )}
                             </span>
                           </span>

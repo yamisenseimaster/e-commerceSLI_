@@ -14,7 +14,8 @@ import ResumenPedido from '../componentes/ResumenPedido';
 import Pagos from '../componentes/Pagos';
 import { usarCarrito } from '../Contextos/ContextoCarrito';
 import Estructura from '../estructura/Estructura';
-import { apiPedidos } from '../servicios/api';
+import { usarProductos } from '../Contextos/ContextoProductos';
+import { apiPedidos, apiProductos } from '../servicios/api';
 
 const mediosPago = [
   { value: 'Tarjeta', name: 'Tarjeta' },
@@ -23,7 +24,8 @@ const mediosPago = [
 ];
 
 function FinalizarCompra() {
-  const { cart: carrito } = usarCarrito();
+  const { cart: carrito, refreshCart: recargarCarrito } = usarCarrito();
+  const { setProducts: establecerProductos } = usarProductos();
   const [medioPago, establecerMedioPago] = useState(mediosPago[0].value);
   const [comprobante, establecerComprobante] = useState(null);
   const [guardando, establecerGuardando] = useState(false);
@@ -41,6 +43,8 @@ function FinalizarCompra() {
         { shippingAddress: direccion, paymentMethod: medioPago }, intento.current,
       );
       establecerComprobante(pedido);
+      Promise.all([recargarCarrito(), apiProductos.listar().then(establecerProductos)])
+        .catch(() => toast.info('Pedido guardado. Recargá la página para actualizar el carrito y el catálogo.'));
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -82,7 +86,7 @@ function FinalizarCompra() {
               Finalizá tu compra
             </h1>
             <p className="mt-3 max-w-2xl text-[14px] font-semibold leading-7 text-[#667085] dark:text-[#cbd5e1]">
-              Usá datos de ejemplo y elegí cómo pagar. El pago es ficticio.
+              Usá datos de ejemplo y elegí cómo pagar. El pago es ficticio. Al confirmar, se actualiza el stock y se vacía tu carrito.
             </p>
           </div>
 

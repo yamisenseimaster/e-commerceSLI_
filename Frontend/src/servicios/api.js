@@ -73,27 +73,6 @@ const apiProductos = {
 export { apiProductos };
 
 const apiAutenticacion = {
-  metodos: () => solicitarApi('/auth/methods'),
-  solicitarCodigo: (cuerpo) =>
-    solicitarApi('/auth/code/request', {
-      method: 'POST',
-      body: JSON.stringify(cuerpo),
-    }),
-  verificarCodigo: (cuerpo) =>
-    solicitarApi('/auth/code/verify', {
-      method: 'POST',
-      body: JSON.stringify(cuerpo),
-    }),
-  google: (cuerpo) =>
-    solicitarApi('/auth/social/google', {
-      method: 'POST',
-      body: JSON.stringify(cuerpo),
-    }),
-  facebook: (cuerpo) =>
-    solicitarApi('/auth/social/facebook', {
-      method: 'POST',
-      body: JSON.stringify(cuerpo),
-    }),
   cerrarSesion: () => solicitarApi('/auth/logout', { method: 'POST' }),
   iniciarSesion: (cuerpo) =>
     solicitarApi('/auth/login', {
@@ -153,19 +132,6 @@ const apiPedidos = {
     }),
 };
 export { apiPedidos };
-
-const apiPagos = {
-  configuracion: () => solicitarApi('/payments/config'),
-  verificar: (sessionId) =>
-    solicitarApi('/payments/verify', { method: 'POST', data: { sessionId } }),
-  crearIntento: (cuerpo) =>
-    solicitarApi('/payments/create-intent', {
-      method: 'POST',
-      body: JSON.stringify(cuerpo),
-    }),
-};
-export { apiPagos };
-
 
 const apiAdministracion = {
   estadisticas: () => solicitarApi('/admin/stats'),

@@ -1,3 +1,4 @@
+import { precioVigente } from '../../utilidades/precioVigente';
 import React, { useState } from 'react';
 import ModalPrincipal from './ModalPrincipal';
 import {
@@ -36,7 +37,7 @@ const ModalProducto = ({
   };
 
   const precio =
-    Number(producto?.flashSale ? producto?.salePrice : producto?.price) || 0;
+    precioVigente(producto);
   const stock = Number(producto?.quantity || 0);
   const estado =
     stock <= 0 ? 'Sin stock' : stock < 20 ? 'Stock bajo' : 'Disponible';

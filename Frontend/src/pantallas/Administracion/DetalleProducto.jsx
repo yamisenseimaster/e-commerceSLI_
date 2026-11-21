@@ -1,3 +1,4 @@
+import { precioVigente } from '../../utilidades/precioVigente';
 import React, { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
@@ -88,7 +89,7 @@ function DetalleProducto() {
     );
   }
 
-  const precio = Number(producto.salePrice || producto.price || 0);
+  const precio = precioVigente(producto);
   const stock = Number(producto.quantity || 0);
   const estado = obtenerEstadoInventario(stock);
 
@@ -365,7 +366,7 @@ function ProductoRelacionado({ product: producto }) {
         </p>
         <div className="mt-4 flex items-center justify-between">
           <p className="text-[18px] font-black text-[#162033]">
-            {formatearDinero(producto.salePrice || producto.price)}
+            {formatearDinero(precioVigente(producto))}
           </p>
           <Link
             to={`/admin/products/${obtenerClaveProducto(producto)}`}
@@ -422,7 +423,7 @@ function obtenerEstadoInventario(stock) {
 }
 
 function crearSucursales(producto) {
-  const precio = Number(producto.salePrice || producto.price || 0);
+  const precio = precioVigente(producto);
   const stock = Number(producto.quantity || 0);
   const names = [
     'Sucursal Centro',

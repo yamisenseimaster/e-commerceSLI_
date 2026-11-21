@@ -54,6 +54,8 @@ def crear_pedido_simulado():
         carrito = resumen_carrito(conexion, cliente)
         if not carrito["items"]:
             return jsonify(error="Agregá un producto al carrito antes de pagar."), 409
+        if any(item["quantity"] > item["product"]["quantity"] for item in carrito["items"]):
+            return jsonify(error="El stock cambió. Revisá las cantidades de tu carrito."), 409
         articulos = [
             {"productId": item["product"]["id"], "title": item["product"]["title"],
              "quantity": item["quantity"], "unitPrice": item["unitPrice"]}
@@ -64,6 +66,22 @@ def crear_pedido_simulado():
                VALUES (?, ?, 'Simulated', ?, ?, ?, ?)""",
             (clave, cliente, datos["paymentMethod"], carrito["total"], json.dumps(direccion), json.dumps(articulos)),
         )
+        for linea in conexion.execute("SELECT producto, cantidad FROM carrito WHERE persona=?", (cliente,)):
+            pendiente = linea["cantidad"]
+            existencias = conexion.execute(
+                """SELECT id_sucursal, cantidad FROM stock_por_sucursal
+                   WHERE id_producto=? AND cantidad>0 ORDER BY id_sucursal""", (linea["producto"],)
+            ).fetchall()
+            for existencia in existencias:
+                unidades = min(pendiente, existencia["cantidad"])
+                conexion.execute(
+                    "UPDATE stock_por_sucursal SET cantidad=cantidad-? WHERE id_producto=? AND id_sucursal=?",
+                    (unidades, linea["producto"], existencia["id_sucursal"]),
+                )
+                pendiente -= unidades
+                if pendiente == 0:
+                    break
+        conexion.execute("DELETE FROM carrito WHERE persona=?", (cliente,))
         fila = conexion.execute("SELECT * FROM pedidos WHERE id=?", (clave,)).fetchone()
         return jsonify(data=pedido_publico(fila)), 201
 

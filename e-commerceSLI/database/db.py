@@ -3,7 +3,7 @@ import sqlite3
 import json
 from pathlib import Path
 
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import generate_password_hash
 
 # Ruta absoluta al archivo de la base de datos dentro de la carpeta 'database'
 DB_PATH = os.path.join(os.path.dirname(__file__), "mercadito.db")
@@ -42,7 +42,7 @@ def preparar_administrador_demo(conexion):
     correo = "admin@mercadito.local"
     clave = "mercadito21"
     cuenta = conexion.execute(
-        "SELECT id_persona, rol, password_hash FROM personas WHERE email = ? COLLATE NOCASE",
+        "SELECT 1 FROM personas WHERE email = ? COLLATE NOCASE",
         (correo,),
     ).fetchone()
     if cuenta is None:
@@ -51,12 +51,6 @@ def preparar_administrador_demo(conexion):
                VALUES ('Administrador', 'Local', 'LOCAL-ADMIN', ?, 'administrador', 'admin_local', ?)""",
             (correo, generate_password_hash(clave)),
         )
-    elif cuenta["rol"] == "administrador" and not check_password_hash(cuenta["password_hash"], clave):
-        conexion.execute(
-            "UPDATE personas SET password_hash = ? WHERE id_persona = ?",
-            (generate_password_hash(clave), cuenta["id_persona"]),
-        )
-        conexion.execute("DELETE FROM sesiones_panel WHERE id_persona = ?", (cuenta["id_persona"],))
 
 
 def preparar_catalogo(conexion):

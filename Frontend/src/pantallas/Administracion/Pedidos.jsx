@@ -10,7 +10,7 @@ import {
   FiX,
 } from 'react-icons/fi';
 import BarraLateral from './BarraLateral';
-import { apiAdministracion, apiPedidos, apiPagos } from '../../servicios/api';
+import { apiAdministracion, apiPedidos } from '../../servicios/api';
 import { usarAutenticacion } from '../../Contextos/ContextoAutenticacion';
 
 const pageSizes = [5, 10, 15];
@@ -41,47 +41,17 @@ function Pedidos() {
     paymentMethod: 'Cash',
   });
   const [enviando, establecerEnviando] = useState(false);
-  const [payingOrder, setPayingOrder] = useState(null);
 
   const isAdmin = usuario?.role === 'admin';
 
   useEffect(() => {
-    const sessionId = new URLSearchParams(window.location.search).get(
-      'session_id',
-    );
-    const verification = sessionId
-      ? apiPagos
-          .verificar(sessionId)
-          .then((pedido) => {
-            toast.info(
-              pedido.paymentStatus === 'Paid'
-                ? 'Pago confirmado'
-                : 'El pago sigue pendiente de confirmacion',
-            );
-            window.history.replaceState({}, '', '/orders');
-          })
-          .catch((error) => toast.error(error.message))
-      : Promise.resolve();
-    verification
-      .then(() => apiPedidos.listar())
+    apiPedidos.listar()
       .then((datos) => establecerPedidos(ordenarPedidos(datos)))
       .catch((error) =>
         toast.error(error.message || 'No se pudieron cargar los pedidos'),
       )
       .finally(() => establecerCargando(false));
   }, []);
-
-  const payOrder = async (pedido) => {
-    setPayingOrder(pedido.id);
-    try {
-      const pago = await apiPagos.crearIntento({ orderId: pedido.id });
-      window.location.assign(pago.checkoutUrl);
-    } catch (error) {
-      toast.error(error.message);
-    } finally {
-      setPayingOrder(null);
-    }
-  };
 
   const filteredOrders = useMemo(() => {
     const busqueda = consulta.trim().toLowerCase();
@@ -142,9 +112,12 @@ function Pedidos() {
   };
 
   const cerrarModal = () => {
-    if (enviando) return;
     establecerPedidoSeleccionado(null);
     establecerModoModal(null);
+  };
+
+  const intentarCerrarModal = () => {
+    if (!enviando) cerrarModal();
   };
 
   const openFilterModal = () => {
@@ -356,20 +329,6 @@ function Pedidos() {
                           onClick={() => openView(pedido)}>
                           <FiEye />
                         </BotonAccion>
-                        {!isAdmin &&
-                          pedido.paymentMethod === 'Stripe' &&
-                          pedido.paymentStatus !== 'Paid' &&
-                          pedido.status !== 'Canceled' && (
-                            <button
-                              type="button"
-                              disabled={Boolean(payingOrder)}
-                              onClick={() => payOrder(pedido)}
-                              className="font-bold text-main disabled:opacity-50">
-                              {payingOrder === pedido.id
-                                ? 'Abriendo...'
-                                : 'Pagar'}
-                            </button>
-                          )}
                         <BotonAccion
                           color="text-main"
                           label="Editar"
@@ -472,13 +431,13 @@ function Pedidos() {
       {pedidoSeleccionado && modoModal === 'view' && (
         <ModalPedido
           title={`Pedido ${etiquetaPedido(pedidoSeleccionado)}`}
-          onClose={cerrarModal}>
+          onClose={intentarCerrarModal}>
           <DetallePedido order={pedidoSeleccionado} />
         </ModalPedido>
       )}
 
       {modoModal === 'filter' && (
-        <ModalPedido title="Filtrar pedidos" onClose={cerrarModal} width={460}>
+        <ModalPedido title="Filtrar pedidos" onClose={intentarCerrarModal} width={460}>
           <div className="space-y-4">
             <label className="block text-sm font-black text-[#26344a] dark:text-white">
               Ver pedidos de un dia exacto
@@ -519,7 +478,7 @@ function Pedidos() {
               </button>
               <button
                 type="button"
-                onClick={cerrarModal}
+                onClick={intentarCerrarModal}
                 className="h-10 rounded-[5px] bg-main px-4 text-sm font-black text-white">
                 Aplicar filtro
               </button>
@@ -531,7 +490,7 @@ function Pedidos() {
       {pedidoSeleccionado && modoModal === 'edit' && (
         <ModalPedido
           title={`Editar ${etiquetaPedido(pedidoSeleccionado)}`}
-          onClose={cerrarModal}>
+          onClose={intentarCerrarModal}>
           <form onSubmit={handleUpdate} className="space-y-4">
             <CampoSeleccion
               label="Estado del pago"
@@ -559,7 +518,7 @@ function Pedidos() {
             <div className="flex justify-end gap-3 border-t border-[#e1e7f0] pt-4">
               <button
                 type="button"
-                onClick={cerrarModal}
+                onClick={intentarCerrarModal}
                 className="h-10 rounded-[5px] border border-[#d9e0ea] px-4 text-sm font-black text-[#26344a]">
                 Cancelar
               </button>
@@ -575,7 +534,7 @@ function Pedidos() {
       )}
 
       {pedidoSeleccionado && modoModal === 'delete' && (
-        <ModalPedido title="Eliminar pedido" onClose={cerrarModal} width={430}>
+        <ModalPedido title="Eliminar pedido" onClose={intentarCerrarModal} width={430}>
           <div className="rounded-[6px] bg-red-50 p-4 text-sm font-bold text-red-700">
             Se eliminara el pedido{' '}
             <span className="font-black">
@@ -586,7 +545,7 @@ function Pedidos() {
           <div className="mt-5 flex justify-end gap-3">
             <button
               type="button"
-              onClick={cerrarModal}
+              onClick={intentarCerrarModal}
               className="h-10 rounded-[5px] border border-[#d9e0ea] px-4 text-sm font-black text-[#26344a]">
               Cancelar
             </button>

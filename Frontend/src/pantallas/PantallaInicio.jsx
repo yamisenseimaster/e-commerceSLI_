@@ -1,3 +1,4 @@
+import { precioVigente } from '../utilidades/precioVigente';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -227,7 +228,7 @@ function PantallaInicio() {
                     {productoPortada?.title || 'Producto fresco'}
                   </p>
                   <p className="text-[14px] font-black text-[#153973] dark:text-[#8ec5ff] sm:text-[15px]">
-                    ${productoPortada?.salePrice || productoPortada?.price || 0}
+                    ${precioVigente(productoPortada)}
                   </p>
                 </div>
 
@@ -497,24 +498,28 @@ function crearDiapositivasPortada(destacados) {
   const fallback = [
     {
       title: 'Producto fresco',
+      flashSale: true,
       salePrice: 40,
       price: 40,
       image: '/products/74.png',
     },
     {
       title: 'Combo del dia',
+      flashSale: true,
       salePrice: 29,
       price: 34,
       image: '/products/11.png',
     },
     {
       title: 'Bebida natural',
+      flashSale: true,
       salePrice: 12,
       price: 16,
       image: '/products/51.png',
     },
     {
       title: 'Ensalada premium',
+      flashSale: true,
       salePrice: 15,
       price: 23,
       image: '/products/21.png',

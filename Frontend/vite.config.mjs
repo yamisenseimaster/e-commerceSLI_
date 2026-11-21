@@ -21,7 +21,6 @@ export default defineConfig({
         manualChunks(id) {
           if (!id.includes('node_modules')) return;
           if (/[\\/]node_modules[\\/](react|react-dom|react-router-dom|react-router)[\\/]/.test(id)) return 'react';
-          if (/[\\/]node_modules[\\/](@stripe|@paypal)[\\/]/.test(id)) return 'payments';
           if (/[\\/]node_modules[\\/](@headlessui|swiper)[\\/]/.test(id)) return 'ui';
           if (/[\\/]node_modules[\\/](apexcharts|react-apexcharts)[\\/]/.test(id)) return 'charts';
         },

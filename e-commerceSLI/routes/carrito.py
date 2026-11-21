@@ -24,7 +24,7 @@ def resumen_carrito(conexion, persona):
     articulos = []
     for fila in filas:
         producto = ficha(fila)
-        precio = producto.get("salePrice") or producto["price"]
+        precio = producto["salePrice"] if producto.get("flashSale") and producto.get("salePrice") is not None else producto["price"]
         subtotal = round(precio * fila["unidades"], 2)
         articulos.append({"product": producto, "quantity": fila["unidades"], "unitPrice": precio, "lineTotal": subtotal})
     return {"items": articulos, "total": round(sum(a["lineTotal"] for a in articulos), 2)}

@@ -1,7 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import PantallaInicio from './pantallas/PantallaInicio';
 import { enlaceSucursales } from './datos/navegacion';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import DesplazarAlInicio from './DesplazarAlInicio';
 import { ProveedorVentanas } from './Contextos/ContextoVentanas';
 import RutaProtegida from './componentes/RutaProtegida';
@@ -12,7 +12,6 @@ const Sucursales = lazy(() => import('./pantallas/Sucursales'));
 const PaginaCategoria = lazy(() => import('./pantallas/PaginaCategoria'));
 const PaginaProducto = lazy(() => import('./pantallas/PaginaProducto'));
 const FinalizarCompra = lazy(() => import('./pantallas/FinalizarCompra'));
-const PantallaPedido = lazy(() => import('./pantallas/PantallaPedido'));
 const Administracion = lazy(
   () => import('./pantallas/Administracion/Administracion'),
 );
@@ -52,7 +51,7 @@ function Aplicacion() {
                 </RutaProtegida>
               }
             />
-            <Route path="/order" element={<PantallaPedido />} />
+            <Route path="/order" element={<Navigate to="/orders" replace />} />
             <Route
               path="/dashboard"
               element={

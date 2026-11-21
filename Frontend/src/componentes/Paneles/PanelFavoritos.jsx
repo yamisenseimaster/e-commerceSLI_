@@ -1,3 +1,4 @@
+import { precioVigente } from '../../utilidades/precioVigente';
 import { motion } from 'framer-motion';
 import { FiHeart, FiShoppingBag, FiTrash2, FiX } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
@@ -91,9 +92,7 @@ function PanelFavoritos({ closeFavoritesDrawer, favoritesDrawerOpen }) {
               {favoriteProducts.map((producto, indice) => {
                 const idProducto = String(producto.id || producto._id);
                 const precio =
-                  Number(
-                    producto.flashSale ? producto.salePrice : producto.price,
-                  ) || 0;
+                  precioVigente(producto);
 
                 return (
                   <motion.article

@@ -1,3 +1,4 @@
+import { precioVigente } from '../../utilidades/precioVigente';
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -25,7 +26,7 @@ const emptyProduct = {
   type: 'Lunch',
   tagsText: '',
   price: 0,
-  salePrice: 0,
+  salePrice: '',
   discount: 0,
   quantity: 0,
   flashSale: false,
@@ -65,7 +66,7 @@ function convertirEnCarga(valores) {
       .map((tag) => tag.trim())
       .filter(Boolean),
     price: Number(valores.price),
-    salePrice: Number(valores.salePrice || valores.price),
+    salePrice: Number(valores.salePrice === '' ? valores.price : valores.salePrice),
     discount: Number(valores.discount),
     quantity: Number(valores.quantity),
     flashSale: Boolean(valores.flashSale),
@@ -81,7 +82,7 @@ function desdeProducto(producto) {
     type: producto.type || 'Lunch',
     tagsText: (producto.tags || producto.tag || []).join(', '),
     price: producto.price || 0,
-    salePrice: producto.salePrice || producto.price || 0,
+    salePrice: producto.salePrice ?? producto.price ?? 0,
     discount: producto.discount || 0,
     quantity: producto.quantity || 0,
     flashSale: Boolean(producto.flashSale),
@@ -150,11 +151,14 @@ function ProductosAdministracion() {
   };
 
   const cerrarModal = () => {
-    if (enviando) return;
     establecerModoModal(null);
     setEditingProduct(null);
     setDeleteProduct(null);
     establecerValores(emptyProduct);
+  };
+
+  const intentarCerrarModal = () => {
+    if (!enviando) cerrarModal();
   };
 
   const manejarCambio = (evento) => {
@@ -358,7 +362,7 @@ function ProductosAdministracion() {
                       <InsigniaCategoria category={producto.type} />
                     </td>
                     <td className="px-4 py-3 font-black text-[#162033] dark:text-white">
-                      {formatearDinero(producto.salePrice || producto.price)}
+                      {formatearDinero(precioVigente(producto))}
                     </td>
                     <td className="px-4 py-3 text-[#26344a] dark:text-slate-200">
                       {Number(producto.quantity || 0)} unidades
@@ -467,7 +471,7 @@ function ProductosAdministracion() {
           editing={Boolean(editingProduct)}
           onChange={manejarCambio}
           onImageUpload={manejarSubidaImagen}
-          onClose={cerrarModal}
+          onClose={intentarCerrarModal}
           onSubmit={manejarEnvio}
           submitting={enviando}
           uploadingImage={uploadingImage}
@@ -477,7 +481,7 @@ function ProductosAdministracion() {
 
       {modoModal === 'delete' && deleteProduct && (
         <ConfirmarEliminacion
-          onClose={cerrarModal}
+          onClose={intentarCerrarModal}
           onConfirm={manejarEliminacion}
           product={deleteProduct}
           submitting={enviando}
@@ -619,7 +623,7 @@ function ModalProducto({
               type="number"
               min="0"
               step="0.01"
-              required
+              required={valores.flashSale}
               className={inputClass}
             />
           </CampoFormulario>
@@ -810,7 +814,7 @@ function TarjetaProducto({
         </p>
         <div className="mt-4 flex items-end justify-between gap-3">
           <p className="text-[20px] font-black text-[#162033] dark:text-white">
-            {formatearDinero(producto.salePrice || producto.price)}
+            {formatearDinero(precioVigente(producto))}
           </p>
           <span className="text-[13px] font-medium text-[#7b8798]">
             {formatearFecha(producto.createdAt)}

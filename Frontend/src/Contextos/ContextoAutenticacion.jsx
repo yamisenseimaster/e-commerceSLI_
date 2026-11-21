@@ -66,29 +66,6 @@ function ProveedorAutenticacion({ children: hijos }) {
     [guardarSesion],
   );
 
-  const solicitarCodigoAcceso = useCallback(
-    (valores) => apiAutenticacion.solicitarCodigo(valores),
-    [],
-  );
-
-  const iniciarSesionConCodigo = useCallback(
-    async (valores) => {
-      const sesion = await apiAutenticacion.verificarCodigo(valores);
-      guardarSesion(sesion);
-      return sesion.user;
-    },
-    [guardarSesion],
-  );
-
-  const iniciarSesionSocial = useCallback(
-    async (proveedor, valores) => {
-      const sesion = await apiAutenticacion[proveedor](valores);
-      guardarSesion(sesion);
-      return sesion.user;
-    },
-    [guardarSesion],
-  );
-
   const actualizarPerfil = useCallback(async (valores) => {
     const usuarioActualizado = await apiAutenticacion.actualizarPerfil(valores);
     localStorage.setItem('authUser', JSON.stringify(usuarioActualizado));
@@ -136,9 +113,6 @@ function ProveedorAutenticacion({ children: hijos }) {
       isAuthenticated: Boolean(usuario),
       login: iniciarSesion,
       register: registrar,
-      requestLoginCode: solicitarCodigoAcceso,
-      loginWithCode: iniciarSesionConCodigo,
-      loginWithSocial: iniciarSesionSocial,
       updateProfile: actualizarPerfil,
       uploadAvatar: subirAvatar,
       changePassword: cambiarContrasena,
@@ -149,9 +123,6 @@ function ProveedorAutenticacion({ children: hijos }) {
       verificandoSesion,
       iniciarSesion,
       registrar,
-      solicitarCodigoAcceso,
-      iniciarSesionConCodigo,
-      iniciarSesionSocial,
       actualizarPerfil,
       subirAvatar,
       cambiarContrasena,

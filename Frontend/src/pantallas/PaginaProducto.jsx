@@ -1,3 +1,4 @@
+import { precioVigente } from '../utilidades/precioVigente';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { toast } from 'react-toastify';
@@ -91,7 +92,7 @@ function PaginaProducto() {
 
   const productKey = obtenerClaveProducto(producto);
   const precio =
-    Number(producto.flashSale ? producto.salePrice : producto.price) || 0;
+    precioVigente(producto);
   const oldPrice = Number(producto.price || 0);
   const stock = Number(producto.quantity || 0);
   const favorite = isFavorite(productKey);

@@ -12,7 +12,6 @@ import {
   Menu,
   Minimize,
   Moon,
-  Search,
   ShoppingBag,
   Store,
   Sun,
@@ -321,22 +320,6 @@ function BarraLateral({
                 }}>
                 <IconoPanel icon={Menu} className="text-[19px]" />
               </button>
-              <div
-                className={`hidden h-9 w-[270px] items-center gap-2 rounded-full border px-3.5 md:flex ${
-                  esOscuro
-                    ? 'border-[#303030] bg-[#111111]'
-                    : 'border-[#d9e0ea] bg-[#fbfcff]'
-                }`}>
-                <IconoPanel
-                  icon={Search}
-                  className="text-[15px] text-[#a9b4c4]"
-                />
-                <input
-                  className="h-full w-full border-0 bg-transparent p-0 text-[14px] font-medium text-[#6b7788] outline-none placeholder:text-[#a9b4c4] dark:text-slate-200 dark:placeholder:text-[#6b7280]"
-                  placeholder="Buscar..."
-                  type="text"
-                />
-              </div>
             </div>
 
             <div
@@ -347,36 +330,6 @@ function BarraLateral({
                 onClick={() => establecerModo(esOscuro ? 'light' : 'dark')}>
                 <IconoPanel icon={esOscuro ? Sun : Moon} />
               </IconButton>
-              <div className="relative md:hidden">
-                <IconButton
-                  label="Buscar"
-                  onClick={() => toggleDropdown('search')}
-                  active={activeDropdown === 'search'}>
-                  <IconoPanel icon={Search} />
-                </IconButton>
-                {activeDropdown === 'search' && (
-                  <MenuBarraSuperior
-                    className="right-0 w-[260px]"
-                    isDark={esOscuro}>
-                    <div
-                      className={`flex h-10 items-center gap-2 rounded-[8px] border px-3 ${
-                        esOscuro
-                          ? 'border-[#303030] bg-[#111111]'
-                          : 'border-[#d9e0ea] bg-[#fbfcff]'
-                      }`}>
-                      <IconoPanel
-                        icon={Search}
-                        className="text-[13px] text-[#a9b4c4]"
-                      />
-                      <input
-                        className="h-full min-w-0 flex-1 border-0 bg-transparent p-0 text-[13px] text-[#6b7788] outline-none placeholder:text-[#a9b4c4] dark:text-slate-200"
-                        placeholder="Buscar..."
-                        type="text"
-                      />
-                    </div>
-                  </MenuBarraSuperior>
-                )}
-              </div>
               <IconButton
                 label={
                   isFullscreen
